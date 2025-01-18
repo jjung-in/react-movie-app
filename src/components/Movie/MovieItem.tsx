@@ -1,6 +1,10 @@
 import styled from "styled-components"
 import { Link } from "react-router-dom"
 
+interface MovieItemProps {
+  id: number;
+}
+
 const MovieItemLi = styled.li`
   background-color: pink;
   border-radius: 10px;
@@ -18,10 +22,10 @@ const PosterImage = styled.img`
   }
 `;
 
-const MovieItem = () => {
+const MovieItem = ({ id }: MovieItemProps) => {
   return (
     <MovieItemLi>
-      <Link to="/detail">
+      <Link to={`/detail/${id}`}>
         <PosterImage src="https://placehold.co/240x360" alt="Movie Poster" />
       </Link>
     </MovieItemLi>

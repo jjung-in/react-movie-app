@@ -1,7 +1,13 @@
+import MovieInfo from "../components/Detail/MovieInfo";
+import CastInfo from "../components/Detail/CastInfo";
+
 const Detail = () => {
   return (
-    <div>Detail</div>
+    <main>
+      <MovieInfo />
+      <CastInfo />
+    </main>
   )
 }
 
-export default Detail
+export default Detail;

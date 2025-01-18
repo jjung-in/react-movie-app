@@ -52,10 +52,10 @@ const MovieList = ({ title }: MovieListProps) => {
           </SeeMoreLink>
         </TitleContainer>
         <MovieListUl>
-          <MovieItem />
-          <MovieItem />
-          <MovieItem />
-          <MovieItem />
+          <MovieItem key={1} id={1} />
+          <MovieItem key={2} id={2} />
+          <MovieItem key={3} id={3} />
+          <MovieItem key={4} id={4} />
         </MovieListUl>
       </Container>
     </MovieListSection>
