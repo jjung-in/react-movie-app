@@ -14,12 +14,14 @@ import Upcoming from "./pages/Upcoming";
 import Popular from "./pages/Popular";
 import Like from "./pages/Like";
 import Movies from "./pages/Movies";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   return (
     <ThemeProvider theme={darkTheme}>
       <GlobalStyle />
       <BrowserRouter>
+        <ScrollToTop />
         <Routes>
           <Route element={<Layout />} >
             <Route path="/" element={<Home />} />
