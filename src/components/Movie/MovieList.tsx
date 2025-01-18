@@ -7,6 +7,7 @@ import MovieItem from "./MovieItem";
 
 interface MovieListProps {
   title: string;
+  url: string;
 }
 
 const MovieListSection = styled.section`
@@ -42,13 +43,13 @@ const MovieListUl = styled.ul`
   gap: 5px;
 `;
 
-const MovieList = ({ title }: MovieListProps) => {
+const MovieList = ({ title, url }: MovieListProps) => {
   return (
     <MovieListSection>
       <Container>
         <TitleContainer>
           <Title>{title}</Title>
-          <SeeMoreLink to="#">더보기<FontAwesomeIcon icon={faAngleRight} />
+          <SeeMoreLink to={`movies/${url}`}>더보기<FontAwesomeIcon icon={faAngleRight} />
           </SeeMoreLink>
         </TitleContainer>
         <MovieListUl>
