@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import Container from "../../styles/Container";
 import MovieItem from "./MovieItem";
+import { useNowPlayingMovies, usePopularMovies, useUpcomingMovies } from "../../hooks/useMovies";
 
 interface MovieListProps {
   title: string;
@@ -40,10 +41,36 @@ const SeeMoreLink = styled(Link)`
 const MovieListUl = styled.ul`
   display: flex;
   justify-content: space-between;
-  gap: 5px;
+  gap: 10px;
 `;
 
 const MovieList = ({ title, url }: MovieListProps) => {
+  let queryResult;
+  switch (url) {
+    case "nowplaying":
+      queryResult = useNowPlayingMovies();
+      break;
+    case "upcoming":
+      queryResult = useUpcomingMovies();
+      break;
+    case "popular":
+      queryResult = usePopularMovies();
+      break;
+    default:
+      queryResult = { data: [], isLoading: false, isError: false }
+  }
+  const { data, isLoading, isError, error } = queryResult;
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error: {error instanceof Error ? error.message : 'Something went wrong'}</div>;
+  }
+
+  const movies = data?.results?.slice(0, 4);
+
   return (
     <MovieListSection>
       <Container>
@@ -53,10 +80,9 @@ const MovieList = ({ title, url }: MovieListProps) => {
           </SeeMoreLink>
         </TitleContainer>
         <MovieListUl>
-          <MovieItem key={1} id={1} />
-          <MovieItem key={2} id={2} />
-          <MovieItem key={3} id={3} />
-          <MovieItem key={4} id={4} />
+          {movies && movies.map((movie: { id: number, poster_path: string }) => (
+            <MovieItem key={movie.id} id={movie.id} poster={movie.poster_path} />
+          ))}
         </MovieListUl>
       </Container>
     </MovieListSection>

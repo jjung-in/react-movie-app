@@ -3,18 +3,18 @@ import { Link } from "react-router-dom"
 
 interface MovieItemProps {
   id: number;
+  poster: string
 }
 
 const MovieItemLi = styled.li`
-  background-color: pink;
   border-radius: 10px;
   overflow: hidden;
 `;
 
 const PosterImage = styled.img`
   width: 240px;
-  /* height: 360px; */
-  height: auto;
+  height: 360px;
+  object-fit: cover;
   transition: transform 0.3s ease;
 
   ${MovieItemLi}:hover & {
@@ -22,11 +22,11 @@ const PosterImage = styled.img`
   }
 `;
 
-const MovieItem = ({ id }: MovieItemProps) => {
+const MovieItem = ({ id, poster }: MovieItemProps) => {
   return (
     <MovieItemLi>
       <Link to={`/detail/${id}`}>
-        <PosterImage src="https://placehold.co/240x360" alt="Movie Poster" />
+        <PosterImage src={`https://image.tmdb.org/t/p/w342/${poster}`} alt="Movie Poster" />
       </Link>
     </MovieItemLi>
   )
