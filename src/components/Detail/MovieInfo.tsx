@@ -3,6 +3,8 @@ import Container from "../../styles/Container";
 import AgeRating from "../Movie/AgeRating";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import { useParams } from "react-router-dom";
+import { useMovieAgeRating, useMovieDetails } from "../../hooks/useMovies";
 
 const StyledContainer = styled(Container)`
   display: flex;
@@ -16,7 +18,7 @@ const PosterWrapper = styled.div`
 
 const PosterImage = styled.img`
   width: 240px;
-  height: 360px;
+  /* height: 360px; */
   object-fit: cover;
   border-radius: 10px;
 `;
@@ -87,25 +89,37 @@ const Description = styled.p`
 `;
 
 const MovieInfo = () => {
+  const movieId = Number(useParams().id);
+  const { data: movieData, isLoading: movieLoading, isError: movieError, error: movieErrorMsg } = useMovieDetails(movieId);
+  const { data: ageRating, isLoading: ageRatingLoading, isError: ageRatingError, error: ageRatingErrprMsg } = useMovieAgeRating(movieId!);
+
+  if (movieLoading || ageRatingLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (movieError || ageRatingError) {
+    return <div>Error: {movieErrorMsg instanceof Error || ageRatingErrprMsg instanceof Error ? movieErrorMsg?.message || ageRatingErrprMsg?.message : 'Something went wrong'}</div>;
+  }
+
   return (
     <section>
       <StyledContainer>
         <PosterWrapper>
-          <PosterImage src="https://placehold.co/240x360" alt="Movie Poster" />
+          <PosterImage src={`https://image.tmdb.org/t/p/w342/${movieData.poster_path}`} alt="Movie Poster" />
         </PosterWrapper>
         <ContentWrapper>
           <TitleWrapper>
-            <Title>무파사: 라이온 킹 (2024)</Title>
+            <Title>{movieData.title}</Title>
             <FavoriteButton><FontAwesomeIcon icon={faHeart} /></FavoriteButton>
           </TitleWrapper>
           <InfoList>
-            <InfoItem><AgeRating rating="PG" /></InfoItem>
-            <InfoItem>개봉일&nbsp;&nbsp;|&nbsp;&nbsp;2024-12-18</InfoItem>
-            <InfoItem>러닝타임&nbsp;&nbsp;|&nbsp;&nbsp;118분</InfoItem>
-            <InfoItem>장르&nbsp;&nbsp;|&nbsp;&nbsp;모험, 가족, 애니메이션</InfoItem>
+            <InfoItem><AgeRating rating={ageRating} /></InfoItem>
+            <InfoItem>개봉일&nbsp;&nbsp;|&nbsp;&nbsp;{movieData.release_date}</InfoItem>
+            <InfoItem>러닝타임&nbsp;&nbsp;|&nbsp;&nbsp;{movieData.runtime}분</InfoItem>
+            <InfoItem>장르&nbsp;&nbsp;|&nbsp;&nbsp;{movieData.genres.map((genre: any) => genre.name).join(", ")}</InfoItem>
           </InfoList>
-          <Tagline>"&nbsp;&nbsp;하나의 왕좌, 엇갈린 운명&nbsp;&nbsp;"</Tagline>
-          <Description >길을 잃고 혼자가 된 새끼 사자 무파사는 광활한 야생을 떠돌던 중 왕의 혈통이자 예정된 후계자 타카와 우연히 만나게 된다. 마치 친형제처럼 끈끈한 우애를 나누며 함께 자란 무파사와 타카는 운명을 개척하기 위해 거대한 여정을 함께 떠난다. 한 치 앞을 알 수 없는 적들의 위협 속에서 두 형제의 끈끈했던 유대에 금이 가기 시작하고 예상치 못한 위기까지 맞닥뜨리게 되는데…</Description>
+          <Tagline>"&nbsp;&nbsp;{movieData.tagline ? movieData.tagline : movieData.title}&nbsp;&nbsp;"</Tagline>
+          <Description >{movieData.overview}</Description>
         </ContentWrapper>
       </StyledContainer>
     </section>

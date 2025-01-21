@@ -33,3 +33,35 @@ export const fetchPopularMovies = async () => {
   );
   return await response.json();
 };
+
+export const fetchMovieDetails = async (movieId: number) => {
+  const response = await fetch(
+    `${BASE_URL}/movie/${movieId}?language=${BASE_LANG}-${BASE_REGION}`,
+    options
+  );
+  return await response.json();
+};
+
+export const fetchMovieCredits = async (movieId: number) => {
+  const response = await fetch(
+    `${BASE_URL}/movie/${movieId}/credits?language=${BASE_LANG}-${BASE_REGION}`, 
+    options
+  );
+  return await response.json();
+};
+
+export const fetchMovieAgeRating = async (movieId: number) => {
+  const response = await fetch(
+    `${BASE_URL}/movie/${movieId}/release_dates`, 
+    options
+  );
+  const data = await response.json();
+  const usRelease = data.results.find((release: any) => release.iso_3166_1 === "US");
+
+  if (usRelease && usRelease.release_dates) {
+    const ageRating = usRelease.release_dates.find((release: any) => release.certification)?.certification;
+    return ageRating || "No Rating";
+  }
+
+  return "No Rating";
+};

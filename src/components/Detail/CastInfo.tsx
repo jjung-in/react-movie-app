@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import Container from "../../styles/Container";
+import { useParams } from "react-router-dom";
+import { useMovieCredits } from "../../hooks/useMovies";
 
 const StyledContainer = styled(Container)`
   padding-top: 20px;
@@ -37,47 +39,28 @@ const CastName = styled.span`
 `;
 
 const CastInfo = () => {
+  const movieId = Number(useParams().id);
+  const { data, isLoading, isError, error } = useMovieCredits(movieId);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error: {error instanceof Error ? error.message : 'Something went wrong'}</div>;
+  }
+
   return (
     <section>
       <StyledContainer>
-        <Title>출연/제작</Title>
+        <Title>출연</Title>
         <CastList>
-          <CastItem>
-            <CastImage src="https://image.tmdb.org/t/p/w500/hNwZWdT2KxKj1YLbipvtUhNjfAp.jpg" alt="Movie Poster" />
-            <CastName>에런 피어</CastName>
-          </CastItem>
-          <CastItem>
-            <CastImage src="https://image.tmdb.org/t/p/w500/6kpDyaZzmSbqCNYuXZUfeMwS1bq.jpg" alt="Movie Poster" />
-            <CastName>케빈 해리슨 주니어</CastName>
-          </CastItem>
-          <CastItem>
-            <CastImage src="https://image.tmdb.org/t/p/w500/9LwqRFdSzxVtnutDUg98YLq0bSz.jpg" alt="Movie Poster" />
-            <CastName>티파니 분</CastName>
-          </CastItem>
-          <CastItem>
-            <CastImage src="https://image.tmdb.org/t/p/w500/hNwZWdT2KxKj1YLbipvtUhNjfAp.jpg" alt="Movie Poster" />
-            <CastName>에런 피어</CastName>
-          </CastItem>
-          <CastItem>
-            <CastImage src="https://image.tmdb.org/t/p/w500/6kpDyaZzmSbqCNYuXZUfeMwS1bq.jpg" alt="Movie Poster" />
-            <CastName>케빈 해리슨 주니어</CastName>
-          </CastItem>
-          <CastItem>
-            <CastImage src="https://image.tmdb.org/t/p/w500/9LwqRFdSzxVtnutDUg98YLq0bSz.jpg" alt="Movie Poster" />
-            <CastName>티파니 분</CastName>
-          </CastItem>
-          <CastItem>
-            <CastImage src="https://image.tmdb.org/t/p/w500/hNwZWdT2KxKj1YLbipvtUhNjfAp.jpg" alt="Movie Poster" />
-            <CastName>에런 피어</CastName>
-          </CastItem>
-          <CastItem>
-            <CastImage src="https://image.tmdb.org/t/p/w500/6kpDyaZzmSbqCNYuXZUfeMwS1bq.jpg" alt="Movie Poster" />
-            <CastName>케빈 해리슨 주니어</CastName>
-          </CastItem>
-          <CastItem>
-            <CastImage src="https://image.tmdb.org/t/p/w500/9LwqRFdSzxVtnutDUg98YLq0bSz.jpg" alt="Movie Poster" />
-            <CastName>티파니 분</CastName>
-          </CastItem>
+          {data?.cast?.map((actor: { cast_id: string, name: string, profile_path?: string }) => (
+            <CastItem key={actor.cast_id}>
+              <CastImage src={actor.profile_path ? `https://image.tmdb.org/t/p/w185/${actor.profile_path}` : `https://placehold.co/240x360`} alt="Movie Poster" />
+              <CastName>{actor.name}</CastName>
+            </CastItem>
+          ))}
         </CastList>
       </StyledContainer>
     </section>
