@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Container from "../../styles/Container";
+import { Link } from "react-router-dom";
 import { usePopularMovies } from "../../hooks/useMovies";
 
 const MovieBannerSection = styled.section`
@@ -10,6 +11,7 @@ const BannerImage = styled.img`
   width: 1024px;
   height: 360px;
   object-fit: fill;
+  filter: brightness(50%);
   border-radius: 10px;
 `;
 
@@ -30,7 +32,9 @@ const MovieBanner = () => {
   return (
     <MovieBannerSection>
       <Container>
-        <BannerImage src={backdrop_img} alt="Movie Poster" />
+        <Link to={`/detail/${movie.id}`}>
+          <BannerImage src={backdrop_img} alt="Movie Poster" />
+        </Link>
       </Container>
     </MovieBannerSection>
   )
