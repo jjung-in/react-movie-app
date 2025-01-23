@@ -1,9 +1,12 @@
 import styled from "styled-components";
 import Container from "../styles/Container";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useLogout } from "../hooks/useAuth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
+import { useAuth } from "../context/AuthContext";
 
 const StyledHeader = styled.header`
   position: sticky;
@@ -73,6 +76,18 @@ const DropdownLink = styled(Link)`
   }
 `;
 
+const DropdownButton = styled.button`
+  display: block;
+  width: 100px;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.primaryText};
+  }
+`;
+
 const ListItemWithDropdown = styled.li`
   position: relative;
 
@@ -87,6 +102,21 @@ const ListItemWithDropdown = styled.li`
 `;
 
 const Header = () => {
+  const { isAuthenticated } = useAuth();
+  const { mutate, isPending } = useLogout();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    mutate(undefined, {
+      onSuccess: () => {
+        navigate("/");
+      },
+      onError: (error) => {
+        console.log(error.message);
+      }
+    })
+  }
+
   return (
     <StyledHeader>
       <StyledContainer>
@@ -98,17 +128,26 @@ const Header = () => {
           <ListItemWithDropdown>
             <StyledLinkButton to="#"><FontAwesomeIcon icon={faUser} /></StyledLinkButton>
             <DropdownMenu>
-              <li>
-                <DropdownLink to="/login">
-                  <FontAwesomeIcon icon={faUser} />
-                  <span>로그인</span>
-                </DropdownLink>
-              </li>
+              {isAuthenticated ? (
+                <li>
+                  <DropdownButton onClick={handleLogout} disabled={isPending}>
+                    <FontAwesomeIcon icon={faUser} />
+                    <span>Logout</span>
+                  </DropdownButton>
+                </li>
+              ) : (
+                <li>
+                  <DropdownLink to="/login">
+                    <FontAwesomeIcon icon={faUser} />
+                    <span>Login</span>
+                  </DropdownLink>
+                </li>
+              )}
             </DropdownMenu>
           </ListItemWithDropdown>
         </StyledList>
       </StyledContainer>
-    </StyledHeader>
+    </StyledHeader >
   )
 }
 

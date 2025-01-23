@@ -11,25 +11,28 @@ import Login from "./pages/Login";
 import Join from "./pages/Join";
 import Movies from "./pages/Movies";
 import ScrollToTop from "./components/ScrollToTop";
+import { AuthProvider } from "./context/AuthContext";
 
 function App() {
   return (
-    <ThemeProvider theme={darkTheme}>
-      <GlobalStyle />
-      <BrowserRouter>
-        <ScrollToTop />
-        <Routes>
-          <Route element={<Layout />} >
-            <Route path="/" element={<Home />} />
-            <Route path="detail/:id" element={<Detail />} />
-            <Route path="search" element={<Search />} />
-            <Route path="movies/:category" element={<Movies />} />
-            <Route path="login" element={<Login />} />
-            <Route path="join" element={<Join />} />
-          </Route>
-        </Routes >
-      </BrowserRouter>
-    </ThemeProvider>
+    <AuthProvider>
+      <ThemeProvider theme={darkTheme}>
+        <GlobalStyle />
+        <BrowserRouter>
+          <ScrollToTop />
+          <Routes>
+            <Route element={<Layout />} >
+              <Route path="/" element={<Home />} />
+              <Route path="detail/:id" element={<Detail />} />
+              <Route path="search" element={<Search />} />
+              <Route path="movies/:category" element={<Movies />} />
+              <Route path="login" element={<Login />} />
+              <Route path="join" element={<Join />} />
+            </Route>
+          </Routes >
+        </BrowserRouter>
+      </ThemeProvider>
+    </AuthProvider>
   )
 }
 

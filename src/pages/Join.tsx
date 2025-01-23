@@ -1,8 +1,11 @@
 import styled from "styled-components";
 import Container from "../styles/Container"
+import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useJoin } from "../hooks/useAuth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-regular-svg-icons";
-import { useState } from "react";
+import { AuthError } from "firebase/auth";
 
 const JoinContainer = styled(Container)`
   max-width: 560px;
@@ -31,7 +34,7 @@ const Form = styled.form`
   gap: 25px;
 `;
 
-const Input = styled.input<{ $isError?: boolean }>`
+const Input = styled.input<{ $isError?: string }>`
   width: 100%;
   height: 50px;
   padding: 0 20px;
@@ -40,11 +43,11 @@ const Input = styled.input<{ $isError?: boolean }>`
   border: ${({ $isError, theme }) => ($isError ? `1px solid ${theme.colors.pointText}` : "none")};
 `;
 
-const ErrorText = styled.p<{ $isError?: boolean }>`
+const ErrorText = styled.p`
   display: flex;
   margin-top: 10px;
   font-size: 1.4rem;
-  color: ${({ $isError, theme }) => ($isError ? theme.colors.primaryText : theme.colors.secondaryText)};
+  color: ${({ theme }) => theme.colors.primaryText};
 
   svg {
     margin-right: 7px;
@@ -64,29 +67,78 @@ const SubmitButton = styled.button`
   cursor: pointer;
 `;
 
-interface Errors {
-  username?: boolean;
-  password?: boolean;
-  confrimPassword?: boolean;
-}
-
 const Join = () => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [errors, setErrors] = useState<Errors>({});
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
+  const [error, setError] = useState("");
+  const { mutate, isPending } = useJoin();
+  const navigate = useNavigate();
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+  const confirmPasswordRef = useRef<HTMLInputElement>(null);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+
+  const handleJoin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const newErrors: Errors = {};
-    if (username.length < 3) newErrors.username = true;
-    if (password.length < 4 || password.length > 20) newErrors.password = true;
-    else if (!/[a-z]/.test(password) || !/\d/.test(password)) newErrors.password = true;
-    else if (/[A-Z]/.test(password)) newErrors.password = true;
-    else if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) newErrors.password = true;
-    if (!confirmPassword || password !== confirmPassword) newErrors.confrimPassword = true;
-    setErrors(newErrors);
+    setEmailError("");
+    setPasswordError("");
+    setConfirmPasswordError("");
+    setError("");
+
+    if (!email) {
+      setEmailError("Please enter your email.");
+      emailRef.current?.focus();
+      return;
+    } else if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
+      setEmailError("Invalid email address. Please check your email format.");
+      emailRef.current?.focus();
+      return;
+    }
+
+    if (!password) {
+      setPasswordError("Please enter your passowrd.");
+      passwordRef.current?.focus();
+      return;
+    } else if (password.length < 6) {
+      setPasswordError("Password must be at least 6 characters.");
+      passwordRef.current?.focus();
+      return;
+    }
+
+    if (!confirmPassword || password !== confirmPassword) {
+      setConfirmPasswordError("Passwords do not match.");
+      confirmPasswordRef.current?.focus();
+      return;
+    }
+
+    mutate(
+      { email, password },
+      {
+        onSuccess: () => {
+          navigate("/login");
+        },
+        onError: (error) => {
+          const firebaseError = error as AuthError;
+          if (firebaseError.code === 'auth/email-already-in-use') {
+            setEmailError('This email is already in use. Please use a different email.');
+            emailRef.current?.focus();
+          } else if (firebaseError.code === 'auth/invalid-email') {
+            setEmailError('Invalid email address. Please check your email format.');
+            emailRef.current?.focus();
+          } else if (firebaseError.code === 'auth/invalid-email') {
+            setPasswordError("Password must be at least 6 characters.");
+            passwordRef.current?.focus();
+          } else {
+            setError('Registration failed: ' + firebaseError.message);
+          }
+        }
+      }
+    );
   }
 
   return (
@@ -94,51 +146,52 @@ const Join = () => {
       <JoinContainer>
         <JoinWrapper>
           <Title>Sign Up</Title>
-          <Form onSubmit={handleSubmit}>
+          <Form onSubmit={handleJoin}>
             <div>
-              <label htmlFor="username">
+              <label htmlFor="email">
                 <Input
                   type="text"
-                  id="username"
-                  placeholder="Enter your username"
+                  placeholder="Enter your email"
                   autoComplete="off"
-                  maxLength={20}
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  $isError={errors.username}
+                  maxLength={30}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  $isError={emailError}
+                  ref={emailRef}
                 />
               </label>
-              <ErrorText $isError={errors.username}><FontAwesomeIcon icon={faCircleCheck} />Username must be at least 3 characters long.</ErrorText>
+              {emailError && <ErrorText><FontAwesomeIcon icon={faCircleCheck} />{emailError}</ErrorText>}
             </div>
             <div>
               <label htmlFor="password">
                 <Input
                   type="password"
-                  id="password"
                   placeholder="Enter your password"
-                  maxLength={20}
+                  maxLength={30}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  $isError={errors.password}
+                  $isError={passwordError}
+                  ref={passwordRef}
                 />
               </label>
-              <ErrorText $isError={errors.password}><FontAwesomeIcon icon={faCircleCheck} />Password must be 4-20 characters long and contain both a lowercase letter and a number.</ErrorText>
+              {passwordError && <ErrorText><FontAwesomeIcon icon={faCircleCheck} />{passwordError}</ErrorText>}
             </div>
             <div>
               <label htmlFor="confirm-password">
                 <Input
                   type="password"
-                  id="confirm-password"
                   placeholder="Confirm your password"
                   maxLength={20}
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  $isError={errors.confrimPassword}
+                  $isError={confirmPasswordError}
+                  ref={confirmPasswordRef}
                 />
               </label>
-              <ErrorText $isError={errors.confrimPassword}><FontAwesomeIcon icon={faCircleCheck} />Passwords do not match</ErrorText>
+              {confirmPasswordError && <ErrorText><FontAwesomeIcon icon={faCircleCheck} />{confirmPasswordError}</ErrorText>}
             </div>
-            <SubmitButton type="submit">Sign Up</SubmitButton>
+            {error && <ErrorText><FontAwesomeIcon icon={faCircleCheck} />{error}</ErrorText>}
+            <SubmitButton type="submit" disabled={isPending}>{isPending ? "Loading..." : "Sign Up"}</SubmitButton>
           </Form>
         </JoinWrapper>
       </JoinContainer>
@@ -146,4 +199,4 @@ const Join = () => {
   )
 }
 
-export default Join
+export default Join;
