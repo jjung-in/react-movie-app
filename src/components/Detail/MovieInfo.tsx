@@ -5,6 +5,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { useParams } from "react-router-dom";
 import { useMovieAgeRating, useMovieDetails } from "../../hooks/useMovies";
+import { useAuth } from "../../context/AuthContext";
+import { useMovieLikes } from "../../hooks/useLikes";
 
 const StyledContainer = styled(Container)`
   display: flex;
@@ -45,17 +47,13 @@ const Title = styled.h2`
   letter-spacing: 1px;
 `;
 
-const FavoriteButton = styled.button`
+const FavoriteButton = styled.button<{ $isLiked?: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: ${({ theme }) => theme.colors.primaryText};
+  color: ${({ $isLiked, theme }) => ($isLiked ? "#CF2F11" : "theme.colors.primaryText")};
   font-size: 2.5rem;
   cursor: pointer;
-
-  &:hover, &.active {
-    color: ${({ theme }) => theme.colors.pointText};
-  }
 `;
 
 const InfoList = styled.ul`
@@ -89,9 +87,26 @@ const Description = styled.p`
 `;
 
 const MovieInfo = () => {
+  const { user } = useAuth();
+  const userEmail = user?.email || null;
   const movieId = Number(useParams().id);
+
   const { data: movieData, isLoading: movieLoading, isError: movieError, error: movieErrorMsg } = useMovieDetails(movieId);
   const { data: ageRating, isLoading: ageRatingLoading, isError: ageRatingError, error: ageRatingErrprMsg } = useMovieAgeRating(movieId!);
+  const { data: isLiked, isLoading: likeLoading, isError: likeError, error: likeErrprMsg, addLike, removeLike } = useMovieLikes(userEmail, movieData);
+
+  const handleLikes = () => {
+    if (!userEmail) {
+      alert("Please log in to continue.");
+      return;
+    }
+
+    if (isLiked) {
+      removeLike.mutate();
+    } else {
+      addLike.mutate();
+    }
+  };
 
   if (movieLoading || ageRatingLoading) {
     return <div>Loading...</div>;
@@ -110,7 +125,7 @@ const MovieInfo = () => {
         <ContentWrapper>
           <TitleWrapper>
             <Title>{movieData.title}</Title>
-            <FavoriteButton><FontAwesomeIcon icon={faHeart} /></FavoriteButton>
+            <FavoriteButton $isLiked={isLiked} onClick={handleLikes}><FontAwesomeIcon icon={faHeart} /></FavoriteButton>
           </TitleWrapper>
           <InfoList>
             <InfoItem><AgeRating rating={ageRating} /></InfoItem>
