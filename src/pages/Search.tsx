@@ -3,13 +3,15 @@ import Container from "../styles/Container";
 import MovieItem from "../components/Movie/MovieItem";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import React, { useState } from "react";
+import { useMovieSearch, usePopularMovies } from "../hooks/useMovies";
 
 const SearchContainer = styled(Container)`
   padding-top: 20px;
   padding-bottom: 20px;
 `;
 
-const SearchInputWrapper = styled.div`
+const SearchForm = styled.form`
   display: flex;
   height: 40px;
   background-color: #000000;
@@ -27,6 +29,14 @@ const SearchButton = styled.button`
   cursor: pointer;
 `;
 
+const Title = styled.h3`
+  color: ${({ theme }) => theme.colors.primaryText};
+  font-size: 2rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin-bottom: 15px;
+`;
+
 const MovieList = styled.ul`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -34,26 +44,41 @@ const MovieList = styled.ul`
 `;
 
 const Search = () => {
+  const [text, setText] = useState("");
+  const [query, setQuery] = useState("");
+  const { data: popularMovies, isLoading: popularLoading, isError: popularError, error: popularErrorMsg } = usePopularMovies();
+  const { data: searchMovies, isLoading: searchLoading, isError: searchError, error: searchErrorMsg } = useMovieSearch(query);
+
+  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setQuery(text);
+  }
+
+  if (popularLoading || searchLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (popularError || searchError) {
+    return <div>Error: {searchErrorMsg instanceof Error ? searchErrorMsg.message : 'Something went wrong'}</div>;
+  }
+
   return (
     <main>
       <section>
         <SearchContainer>
-          <SearchInputWrapper>
-            <SearchInput type="text" autoComplete="off" />
+          <SearchForm onSubmit={handleSearch}>
+            <SearchInput type="text" autoComplete="off" onChange={(e) => setText(e.target.value)} />
             <SearchButton><FontAwesomeIcon icon={faMagnifyingGlass} /></SearchButton>
-          </SearchInputWrapper>
+          </SearchForm>
         </SearchContainer>
       </section>
       <section>
         <SearchContainer>
+          <Title>{query ? `Search Results for "${query}"` : "Popular Movies"}</Title>
           <MovieList>
-            <MovieItem id={134456} poster="sCqhG6ipHne0TgFzz2ZvOgIPtPh.jpg" />
-            <MovieItem id={134456} poster="sCqhG6ipHne0TgFzz2ZvOgIPtPh.jpg" />
-            <MovieItem id={134456} poster="sCqhG6ipHne0TgFzz2ZvOgIPtPh.jpg" />
-            <MovieItem id={134456} poster="sCqhG6ipHne0TgFzz2ZvOgIPtPh.jpg" />
-            <MovieItem id={134456} poster="sCqhG6ipHne0TgFzz2ZvOgIPtPh.jpg" />
-            <MovieItem id={134456} poster="sCqhG6ipHne0TgFzz2ZvOgIPtPh.jpg" />
-            <MovieItem id={134456} poster="sCqhG6ipHne0TgFzz2ZvOgIPtPh.jpg" />
+            {(query ? searchMovies : popularMovies)?.results?.map((movie: { id: number, movieId: number, poster_path: string }) => (
+              <MovieItem key={movie.id} id={movie.id} poster={movie.poster_path} />
+            ))}
           </MovieList>
         </SearchContainer>
       </section>

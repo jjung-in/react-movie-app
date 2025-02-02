@@ -6,6 +6,7 @@ import {
   fetchMovieDetails,
   fetchMovieCredits,
   fetchMovieAgeRating,
+  fetchMovieSearch,
 } from "../api/tmdb";
 
 export const useNowPlayingMovies = () => {
@@ -47,5 +48,12 @@ export const useMovieAgeRating = (movieId: number) => {
   return useQuery({
     queryKey: ["ageRating", movieId],
     queryFn: () => fetchMovieAgeRating(movieId),
+  });
+};
+
+export const useMovieSearch = (query: string) => {
+  return useQuery({
+    queryKey: ["search", query],
+    queryFn: () => fetchMovieSearch(query),
   });
 };
