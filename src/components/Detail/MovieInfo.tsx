@@ -63,17 +63,6 @@ const InfoList = styled.ul`
   gap: 1rem;
 `;
 
-const InfoItem = styled.li`
-  position: relative;
-  padding-left: 15px;
-
-  &::before {
-    position: absolute;
-    content: "•";
-    left: 0;
-  }
-`;
-
 const Tagline = styled.p`
   margin: 30px 0;
   text-align: center;
@@ -128,10 +117,10 @@ const MovieInfo = () => {
             <FavoriteButton $isLiked={isLiked} onClick={handleLikes}><FontAwesomeIcon icon={faHeart} /></FavoriteButton>
           </TitleWrapper>
           <InfoList>
-            <InfoItem><AgeRating rating={ageRating} /></InfoItem>
-            <InfoItem>개봉일&nbsp;&nbsp;|&nbsp;&nbsp;{movieData.release_date}</InfoItem>
-            <InfoItem>러닝타임&nbsp;&nbsp;|&nbsp;&nbsp;{movieData.runtime}분</InfoItem>
-            <InfoItem>장르&nbsp;&nbsp;|&nbsp;&nbsp;{movieData.genres.map((genre: any) => genre.name).join(", ")}</InfoItem>
+            <li><AgeRating rating={ageRating} /></li>
+            <li><b>RELEASE</b>&nbsp;&nbsp;|&nbsp;&nbsp;{movieData.release_date}</li>
+            <li><b>RUNTIME</b>&nbsp;&nbsp;|&nbsp;&nbsp;{movieData.runtime}M</li>
+            <li><b>GENRE</b>&nbsp;&nbsp;|&nbsp;&nbsp;{movieData.genres.map((genre: any) => genre.name).join(", ")}</li>
           </InfoList>
           <Tagline>"&nbsp;&nbsp;{movieData.tagline ? movieData.tagline : movieData.title}&nbsp;&nbsp;"</Tagline>
           <Description >{movieData.overview}</Description>

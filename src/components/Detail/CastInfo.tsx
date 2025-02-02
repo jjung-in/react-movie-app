@@ -53,7 +53,7 @@ const CastInfo = () => {
   return (
     <section>
       <StyledContainer>
-        <Title>출연</Title>
+        <Title>CAST</Title>
         <CastList>
           {data?.cast?.map((actor: { cast_id: string, name: string, profile_path?: string }) => (
             <CastItem key={actor.cast_id}>

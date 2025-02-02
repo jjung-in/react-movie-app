@@ -1,7 +1,7 @@
 const API_KEY = import.meta.env.VITE_API_KEY;
 const BASE_URL = "https://api.themoviedb.org/3";
-const BASE_LANG = "ko";
-const BASE_REGION = "KR";
+const BASE_LANG = "en";
+const BASE_REGION = "US";
 const options = {
   method: "GET",
   headers: {

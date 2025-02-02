@@ -3,6 +3,8 @@ import Container from "../styles/Container"
 import MovieItem from "../components/Movie/MovieItem"
 import { useParams } from "react-router-dom";
 import { useNowPlayingMovies, usePopularMovies, useUpcomingMovies } from "../hooks/useMovies";
+import { useAuth } from "../context/AuthContext";
+import { useUserLikes } from "../hooks/useLikes";
 
 const MoviesContainer = styled(Container)`
   padding: 20px 0;
@@ -26,24 +28,30 @@ const MovieListUl = styled.ul`
 
 const Movies = () => {
   const { category } = useParams();
+  const { user } = useAuth();
+  const userEmail = user?.email || null;
 
   let queryResult, title;
   switch (category) {
     case "nowplaying":
       queryResult = useNowPlayingMovies();
-      title = "현재 상영작";
+      title = "Now Playing";
       break;
     case "upcoming":
       queryResult = useUpcomingMovies();
-      title = "상영 예정작작";
+      title = "Coming Soon";
       break;
     case "popular":
       queryResult = usePopularMovies();
-      title = "인기 작품";
+      title = "Popular Movies";
+      break;
+    case "like":
+      queryResult = useUserLikes(userEmail);
+      title = "Favorites"
       break;
     default:
       queryResult = useNowPlayingMovies();
-      title = "현재 상영작";
+      title = "Now Playing";
   }
   const { data, isLoading, isError, error } = queryResult;
 
@@ -55,13 +63,15 @@ const Movies = () => {
     return <div>Error: {error instanceof Error ? error.message : 'Something went wrong'}</div>;
   }
 
+  const movies = category === "like" ? data : data?.results;
+
   return (
     <main>
       <section>
         <MoviesContainer>
           <Title>{title}</Title>
           <MovieListUl>
-            {data?.results?.map((movie: { id: number, poster_path: string }) => (
+            {movies.map((movie: { id: number, poster_path: string }) => (
               <MovieItem key={movie.id} id={movie.id} poster={movie.poster_path} />
             ))}
           </MovieListUl>

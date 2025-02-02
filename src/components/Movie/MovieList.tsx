@@ -9,7 +9,6 @@ import { useAuth } from "../../context/AuthContext";
 import { useUserLikes } from "../../hooks/useLikes";
 
 interface MovieListProps {
-  title: string;
   url: string;
 }
 
@@ -37,6 +36,7 @@ const SeeMoreLink = styled(Link)`
 
   & > svg {
     margin-left: 5px;
+    padding-bottom: 2px;
   }
 `;
 
@@ -45,26 +45,31 @@ const MovieListUl = styled.ul`
   gap: 20px;
 `;
 
-const MovieList = ({ title, url }: MovieListProps) => {
+const MovieList = ({ url }: MovieListProps) => {
   const { user } = useAuth();
   const userEmail = user?.email || null;
 
-  let queryResult;
+  let queryResult, title;
   switch (url) {
     case "nowplaying":
       queryResult = useNowPlayingMovies();
+      title = "Now Playing";
       break;
     case "upcoming":
       queryResult = useUpcomingMovies();
+      title = "Coming Soon";
       break;
     case "popular":
       queryResult = usePopularMovies();
+      title = "Popular Movies";
       break;
     case "like":
       queryResult = useUserLikes(userEmail);
+      title = "Favorites"
       break;
     default:
-      queryResult = { data: [], isLoading: false, isError: false }
+      queryResult = useNowPlayingMovies();
+      title = "Now Playing";
   }
   const { data, isLoading, isError, error } = queryResult;
 
@@ -85,7 +90,7 @@ const MovieList = ({ title, url }: MovieListProps) => {
           <Container>
             <TitleContainer>
               <Title>{title}</Title>
-              <SeeMoreLink to={`movies/${url}`}>더보기<FontAwesomeIcon icon={faAngleRight} />
+              <SeeMoreLink to={`movies/${url}`}>More<FontAwesomeIcon icon={faAngleRight} />
               </SeeMoreLink>
             </TitleContainer>
             <MovieListUl>
