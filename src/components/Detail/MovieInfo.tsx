@@ -51,7 +51,7 @@ const FavoriteButton = styled.button<{ $isLiked?: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: ${({ $isLiked, theme }) => ($isLiked ? "#CF2F11" : "theme.colors.primaryText")};
+  color: ${({ $isLiked, theme }) => ($isLiked ? "#CF2F11" : theme.colors.primaryText)};
   font-size: 2.5rem;
   cursor: pointer;
 `;
