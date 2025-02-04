@@ -10,25 +10,25 @@ const options = {
   },
 };
 
-export const fetchNowPlayingMovies = async () => {
+export const fetchNowPlayingMovies = async ({ pageParam }: { pageParam: number }) => {
   const response = await fetch(
-    `${BASE_URL}/movie/now_playing?api_key=${API_KEY}&language=${BASE_LANG}-${BASE_REGION}&page=1`,
+    `${BASE_URL}/movie/now_playing?api_key=${API_KEY}&language=${BASE_LANG}-${BASE_REGION}&page=${pageParam}`,
     options
   );
   return await response.json();
 };
 
-export const fetchUpcomingMovies = async () => {
+export const fetchUpcomingMovies = async ({ pageParam }: { pageParam: number }) => {
   const response = await fetch(
-    `${BASE_URL}/movie/upcoming?api_key=${API_KEY}&language=${BASE_LANG}-${BASE_REGION}&page=1`,
+    `${BASE_URL}/movie/upcoming?api_key=${API_KEY}&language=${BASE_LANG}-${BASE_REGION}&page=${pageParam}`,
     options
   );
   return await response.json();
 };
 
-export const fetchPopularMovies = async () => {
+export const fetchPopularMovies = async ({ pageParam }: { pageParam: number }) => {
   const response = await fetch(
-    `${BASE_URL}/movie/popular?api_key=${API_KEY}&language=${BASE_LANG}-${BASE_REGION}&page=1`,
+    `${BASE_URL}/movie/popular?api_key=${API_KEY}&language=${BASE_LANG}-${BASE_REGION}&page=${pageParam}`,
     options
   );
   return await response.json();

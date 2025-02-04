@@ -2,9 +2,11 @@ import styled from "styled-components";
 import Container from "../styles/Container"
 import MovieItem from "../components/Movie/MovieItem"
 import { useParams } from "react-router-dom";
-import { useNowPlayingMovies, usePopularMovies, useUpcomingMovies } from "../hooks/useMovies";
+import { useNowPlayingMoviesInfinite, usePopularMoviesInfinite, useUpcomingMoviesInfinite } from "../hooks/useMovies";
 import { useAuth } from "../context/AuthContext";
 import { useUserLikes } from "../hooks/useLikes";
+import { useEffect, useRef, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 const MoviesContainer = styled(Container)`
   padding: 20px 0;
@@ -34,15 +36,15 @@ const Movies = () => {
   let queryResult, title;
   switch (category) {
     case "nowplaying":
-      queryResult = useNowPlayingMovies();
+      queryResult = useNowPlayingMoviesInfinite();
       title = "Now Playing";
       break;
     case "upcoming":
-      queryResult = useUpcomingMovies();
+      queryResult = useUpcomingMoviesInfinite();
       title = "Coming Soon";
       break;
     case "popular":
-      queryResult = usePopularMovies();
+      queryResult = usePopularMoviesInfinite();
       title = "Popular Movies";
       break;
     case "like":
@@ -50,10 +52,43 @@ const Movies = () => {
       title = "Favorites"
       break;
     default:
-      queryResult = useNowPlayingMovies();
+      queryResult = useNowPlayingMoviesInfinite();
       title = "Now Playing";
   }
-  const { data, isLoading, isError, error } = queryResult;
+
+  const { data, isLoading, isFetching, isError, error, fetchNextPage, hasNextPage } = queryResult;
+  const lastMovieRef = useRef<HTMLDivElement | null>(null);
+
+
+  useEffect(() => {
+    const options = {
+      root: null,
+      rootMargin: "0px",
+      threshold: 1,
+    };
+
+    const callback: IntersectionObserverCallback = (entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && hasNextPage) {
+          fetchNextPage?.();
+          observer.unobserve(entry.target);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(callback, options);
+
+    if (lastMovieRef.current) {
+      observer.observe(lastMovieRef.current);
+    }
+
+    return () => {
+      if (lastMovieRef.current) {
+        observer.unobserve(lastMovieRef.current);
+      }
+    };
+  }, [lastMovieRef.current, hasNextPage]);
+
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -63,7 +98,7 @@ const Movies = () => {
     return <div>Error: {error instanceof Error ? error.message : 'Something went wrong'}</div>;
   }
 
-  const movies = category === "like" ? data : data?.results;
+  const movies = category === "like" ? data : data?.pages.flatMap((page: any) => page.results);
 
   return (
     <main>
@@ -71,10 +106,13 @@ const Movies = () => {
         <MoviesContainer>
           <Title>{title}</Title>
           <MovieListUl>
-            {movies.map((movie: { id: number, poster_path: string }) => (
-              <MovieItem key={movie.id} id={movie.id} poster={movie.poster_path} />
+            {movies.map((movie: { id: number; poster_path: string }, index: number) => (
+              <div ref={index === movies.length - 1 ? lastMovieRef : null} key={uuidv4()}>
+                <MovieItem id={movie.id} poster={movie.poster_path} />
+              </div>
             ))}
           </MovieListUl>
+          {isFetching && <div>데이터 새로 요청 중 ...</div>}
         </MoviesContainer>
       </section>
     </main>

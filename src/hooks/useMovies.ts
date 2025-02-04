@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import {
   fetchNowPlayingMovies,
   fetchUpcomingMovies,
@@ -12,21 +12,54 @@ import {
 export const useNowPlayingMovies = () => {
   return useQuery({
     queryKey: ["nowPlayingMovies"],
-    queryFn: fetchNowPlayingMovies,
+    queryFn: () => fetchNowPlayingMovies({ pageParam: 1 }),
   });
 };
 
 export const useUpcomingMovies = () => {
   return useQuery({
     queryKey: ["upcomingMovies"],
-    queryFn: fetchUpcomingMovies,
+    queryFn: () => fetchUpcomingMovies({ pageParam: 1 }),
   });
 };
 
 export const usePopularMovies = () => {
   return useQuery({
     queryKey: ["popularMovies"],
+    queryFn: () => fetchPopularMovies({ pageParam: 1 }),
+  });
+};
+
+export const useNowPlayingMoviesInfinite = () => {
+  return useInfiniteQuery({
+    queryKey: ["nowPlayingMovies", "infinite"],
+    queryFn: fetchNowPlayingMovies,
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => {
+      return lastPage.page < lastPage.total_pages ? lastPage.page + 1 : undefined;
+    },
+  });
+};
+
+export const useUpcomingMoviesInfinite = () => {
+  return useInfiniteQuery({
+    queryKey: ["upcomingMovies", "infinite"],
+    queryFn: fetchUpcomingMovies,
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => {
+      return lastPage.page < lastPage.total_pages ? lastPage.page + 1 : undefined;
+    },
+  });
+};
+
+export const usePopularMoviesInfinite = () => {
+  return useInfiniteQuery({
+    queryKey: ["popularMovies", "infinite"],
     queryFn: fetchPopularMovies,
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => {
+      return lastPage.page < lastPage.total_pages ? lastPage.page + 1 : undefined;
+    },
   });
 };
 
