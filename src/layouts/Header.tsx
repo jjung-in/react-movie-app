@@ -138,7 +138,7 @@ const Header = () => {
                   <li>
                     <DropdownButtonItem>
                       <FontAwesomeIcon icon={faHeart} />
-                      <span>Favorited</span>
+                      <span>Favorites</span>
                     </DropdownButtonItem>
                   </li>
                   <li>

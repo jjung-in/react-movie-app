@@ -3,16 +3,16 @@ import Container from "../styles/Container";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 
-const StyledFooter = styled.footer`
+const FooterWrapper = styled.footer`
   border-top: 1px solid ${({ theme }) => theme.colors.secondaryText};
 `;
 
-const StyledContainer = styled(Container)`
+const FooterContainer = styled(Container)`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 0;
   letter-spacing: 1px;
+  height: 100px;
 
   span {
     font-size: 1.2rem;
@@ -28,12 +28,12 @@ const StyledContainer = styled(Container)`
 
 const Footer = () => {
   return (
-    <StyledFooter>
-      <StyledContainer>
+    <FooterWrapper>
+      <FooterContainer>
         <span>Copyright 2025. jjung-in.</span>
         <a href="https://github.com/jjung-in" target="_blank" rel="noopener noreferrer" aria-label="Visit jjung-in's GitHub profile"><FontAwesomeIcon icon={faGithub} /></a>
-      </StyledContainer>
-    </StyledFooter>
+      </FooterContainer>
+    </FooterWrapper>
   )
 }
 
