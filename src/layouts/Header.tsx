@@ -1,14 +1,16 @@
 import styled from "styled-components";
 import Container from "../styles/Container";
+import IconLink from "../components/common/IconLink";
+import IconButton from "../components/common/IconButton";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import { useLogout } from "../hooks/useAuth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import { faUser } from "@fortawesome/free-regular-svg-icons";
-import { useAuth } from "../context/AuthContext";
+import { faHeart, faSun, faUser } from "@fortawesome/free-regular-svg-icons";
 
-const StyledHeader = styled.header`
+const HeaderWrapper = styled.header`
   position: sticky;
   top: 0;
   left: 0;
@@ -16,12 +18,14 @@ const StyledHeader = styled.header`
   background-color: ${({ theme }) => theme.colors.background};
 `;
 
-const StyledContainer = styled(Container)`
+const HeaderContainer = styled(Container)`
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  height: 70px;
 `;
 
-const StyledHeaderLink = styled(Link)`
+const LogoLink = styled(Link)`
   @font-face {
     font-family: 'RixYeoljeongdo_Regular';
     src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2102-01@1.0/RixYeoljeongdo_Regular.woff') format('woff');
@@ -29,35 +33,27 @@ const StyledHeaderLink = styled(Link)`
     font-style: normal;
   }
   
-  padding: 15px 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: ${({ theme }) => theme.colors.primaryText};
   font-family: 'RixYeoljeongdo_Regular';
   font-size: 2rem;
   letter-spacing: 1px;
   text-decoration: none;
+  height: 100%;
 `;
 
-const StyledList = styled.ul`
+const NavList = styled.ul`
   display: flex;
   gap: 1rem;
-`;
-
-const StyledLinkButton = styled(Link)`
-  display: flex;
-  align-items: center;
   height: 100%;
-  padding: 0 10px;
-  font-size: 2rem;
-  cursor: pointer;
-
-  &:hover {
-    color: ${({ theme }) => theme.colors.primaryText};
-  }
 `;
 
-const DropdownMenu = styled.ul`
+const Dropdown = styled.ul`
   position: absolute;
   right: 0;
+  top: 60px;
   background: #000000; 
   z-index: 1000;
   visibility: hidden;
@@ -65,37 +61,43 @@ const DropdownMenu = styled.ul`
   transition: opacity 0.3s ease-in-out;
 `;
 
-const DropdownLink = styled(Link)`
-  display: block;
-  width: 100px;
-  padding: 10px;
-  text-align: center;
+const DropdownLinkItem = styled(Link)`
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+
+  svg {
+    width: 15px;
+  }
 
   &:hover {
     color: ${({ theme }) => theme.colors.primaryText};
   }
 `;
 
-const DropdownButton = styled.button`
-  display: block;
-  width: 100px;
-  padding: 10px;
-  text-align: center;
+const DropdownButtonItem = styled.button`
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
   cursor: pointer;
 
+  svg {
+    width: 15px;
+  }
+
   &:hover {
     color: ${({ theme }) => theme.colors.primaryText};
   }
 `;
 
-const ListItemWithDropdown = styled.li`
+const NavListItemWithDropdown = styled.li`
   position: relative;
 
   span {
     padding-left: 8px;
   }
 
-  &:hover ${DropdownMenu} {
+  &:hover ${Dropdown} {
     visibility: visible;
     opacity: 1;
   }
@@ -118,36 +120,47 @@ const Header = () => {
   }
 
   return (
-    <StyledHeader>
-      <StyledContainer>
-        <StyledHeaderLink to="/">FilmSearch</StyledHeaderLink>
-        <StyledList>
+    <HeaderWrapper>
+      <HeaderContainer>
+        <LogoLink to="/">FilmSearch</LogoLink>
+        <NavList>
           <li>
-            <StyledLinkButton to="/search"><FontAwesomeIcon icon={faMagnifyingGlass} /></StyledLinkButton>
+            <IconLink to="/search" icon={faMagnifyingGlass} />
           </li>
-          <ListItemWithDropdown>
-            <StyledLinkButton to="#"><FontAwesomeIcon icon={faUser} /></StyledLinkButton>
-            <DropdownMenu>
+          <li>
+            <IconButton icon={faSun} />
+          </li>
+          <NavListItemWithDropdown>
+            <IconButton icon={faUser} />
+            <Dropdown>
               {isAuthenticated ? (
-                <li>
-                  <DropdownButton onClick={handleLogout} disabled={isPending}>
-                    <FontAwesomeIcon icon={faUser} />
-                    <span>Logout</span>
-                  </DropdownButton>
-                </li>
+                <>
+                  <li>
+                    <DropdownButtonItem>
+                      <FontAwesomeIcon icon={faHeart} />
+                      <span>Favorited</span>
+                    </DropdownButtonItem>
+                  </li>
+                  <li>
+                    <DropdownButtonItem onClick={handleLogout} disabled={isPending}>
+                      <FontAwesomeIcon icon={faUser} />
+                      <span>Logout</span>
+                    </DropdownButtonItem>
+                  </li>
+                </>
               ) : (
                 <li>
-                  <DropdownLink to="/login">
+                  <DropdownLinkItem to="/login">
                     <FontAwesomeIcon icon={faUser} />
                     <span>Login</span>
-                  </DropdownLink>
+                  </DropdownLinkItem>
                 </li>
               )}
-            </DropdownMenu>
-          </ListItemWithDropdown>
-        </StyledList>
-      </StyledContainer>
-    </StyledHeader >
+            </Dropdown>
+          </NavListItemWithDropdown>
+        </NavList>
+      </HeaderContainer>
+    </HeaderWrapper>
   )
 }
 
