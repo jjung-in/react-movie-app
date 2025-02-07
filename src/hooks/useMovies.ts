@@ -7,6 +7,7 @@ import {
   fetchMovieCredits,
   fetchMovieAgeRating,
   fetchMovieSearch,
+  fetchTopRatedMovies,
 } from "../api/tmdb";
 
 export const useNowPlayingMovies = () => {
@@ -27,6 +28,13 @@ export const usePopularMovies = () => {
   return useQuery({
     queryKey: ["popularMovies"],
     queryFn: () => fetchPopularMovies({ pageParam: 1 }),
+  });
+};
+
+export const useTopRatedMovies = () => {
+  return useQuery({
+    queryKey: ["topRatedMovies"],
+    queryFn: () => fetchTopRatedMovies({ pageParam: 1 }),
   });
 };
 
@@ -56,6 +64,17 @@ export const usePopularMoviesInfinite = () => {
   return useInfiniteQuery({
     queryKey: ["popularMovies", "infinite"],
     queryFn: fetchPopularMovies,
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => {
+      return lastPage.page < lastPage.total_pages ? lastPage.page + 1 : undefined;
+    },
+  });
+};
+
+export const useTopRatedMoviesInfinite = () => {
+  return useInfiniteQuery({
+    queryKey: ["topRatedMovies", "infinite"],
+    queryFn: fetchTopRatedMovies,
     initialPageParam: 1,
     getNextPageParam: (lastPage) => {
       return lastPage.page < lastPage.total_pages ? lastPage.page + 1 : undefined;

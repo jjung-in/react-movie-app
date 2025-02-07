@@ -34,6 +34,14 @@ export const fetchPopularMovies = async ({ pageParam }: { pageParam: number }) =
   return await response.json();
 };
 
+export const fetchTopRatedMovies = async ({ pageParam }: { pageParam: number }) => {
+  const response = await fetch(
+    `${BASE_URL}/movie/top_rated?api_key=${API_KEY}&language=${BASE_LANG}-${BASE_REGION}&page=${pageParam}`,
+    options
+  );
+  return await response.json();
+};
+
 export const fetchMovieDetails = async (movieId: number) => {
   const response = await fetch(`${BASE_URL}/movie/${movieId}?language=${BASE_LANG}-${BASE_REGION}`, options);
   return await response.json();

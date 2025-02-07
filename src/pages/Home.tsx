@@ -11,6 +11,7 @@ const Home = () => {
       {isAuthenticated && <MovieList url="like" />}
       <MovieList url="nowplaying" />
       <MovieList url="upcoming" />
+      <MovieList url="toprated" />
       <MovieList url="popular" />
     </main>
   )

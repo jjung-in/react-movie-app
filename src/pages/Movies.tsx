@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Container from "../styles/Container"
 import MovieItem from "../components/Movie/MovieItem"
 import { useParams } from "react-router-dom";
-import { useNowPlayingMoviesInfinite, usePopularMoviesInfinite, useUpcomingMoviesInfinite } from "../hooks/useMovies";
+import { useNowPlayingMoviesInfinite, usePopularMoviesInfinite, useTopRatedMoviesInfinite, useUpcomingMoviesInfinite } from "../hooks/useMovies";
 import { useAuth } from "../context/AuthContext";
 import { useUserLikes } from "../hooks/useLikes";
 import { useEffect, useRef, useState } from "react";
@@ -46,6 +46,10 @@ const Movies = () => {
     case "popular":
       queryResult = usePopularMoviesInfinite();
       title = "Popular Movies";
+      break;
+    case "toprated":
+      queryResult = useTopRatedMoviesInfinite();
+      title = "Top Rated";
       break;
     case "like":
       queryResult = useUserLikes(userEmail);

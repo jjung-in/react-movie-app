@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import Container from "../../styles/Container";
 import MovieItem from "./MovieItem";
-import { useNowPlayingMovies, usePopularMovies, useUpcomingMovies } from "../../hooks/useMovies";
+import { useNowPlayingMovies, usePopularMovies, useTopRatedMovies, useUpcomingMovies } from "../../hooks/useMovies";
 import { useAuth } from "../../context/AuthContext";
 import { useUserLikes } from "../../hooks/useLikes";
 
@@ -62,6 +62,10 @@ const MovieList = ({ url }: MovieListProps) => {
     case "popular":
       queryResult = usePopularMovies();
       title = "Popular Movies";
+      break;
+    case "toprated":
+      queryResult = useTopRatedMovies();
+      title = "Top Rated";
       break;
     case "like":
       queryResult = useUserLikes(userEmail);
