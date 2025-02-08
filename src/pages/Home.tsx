@@ -1,18 +1,13 @@
-import MovieBanner from "../components/Movie/MovieBanner";
+import Banner from "../components/Movie/Banner";
 import MovieList from "../components/Movie/MovieList";
-import { useAuth } from "../context/AuthContext";
 
 const Home = () => {
-  const { isAuthenticated } = useAuth();
-
   return (
     <main>
-      <MovieBanner />
-      {isAuthenticated && <MovieList url="like" />}
+      <Banner />
       <MovieList url="nowplaying" />
       <MovieList url="upcoming" />
       <MovieList url="toprated" />
-      <MovieList url="popular" />
     </main>
   )
 }

@@ -1,0 +1,4 @@
+.slick-slide:not(.slick-center) {
+  transform: scale(0.9);
+  filter: brightness(50%);
+}
