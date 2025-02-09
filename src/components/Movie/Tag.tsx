@@ -11,18 +11,18 @@ interface Props {
 }
 
 const S = {
-  TagBox: styled.span<{ $options: Record<string, any> }>`
+  TagBox: styled.span<{ $options: Props["options"] }>`
     padding: 3px 8px;
     border-radius: 20px;
     backdrop-filter: blur(5px);
-    color: ${({ $options, theme }) => $options.color ? $options.color : theme.colors.secondaryText};
-    font-size: ${({ $options }) => $options.fontSize ? $options.fontSize : '1.5rem'};
-    font-weight: ${({ $options }) => $options.fontWeight ? $options.fontWeight : 'normal'};
-    background-color: ${({ $options }) => $options.backgroundColor ? $options.backgroundColor : 'rgba(255,255,255, 0.2)'};
+    color: ${({ $options, theme }) => $options?.color || theme.colors.secondaryText};
+    font-size: ${({ $options }) => $options?.fontSize || '1.5rem'};
+    font-weight: ${({ $options }) => $options?.fontWeight || 'normal'};
+    background-color: ${({ $options }) => $options?.backgroundColor || 'rgba(255,255,255, 0.2)'};
   `,
 }
 
-const genreMapping: any = {
+const genreMapping: Record<number, string> = {
   28: 'Action',
   12: 'Adventure',
   16: 'Animation',
