@@ -1,79 +1,71 @@
 import styled from "styled-components";
+import MovieItem from "./MovieItem";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
-import Container from "../../styles/Container";
-import MovieItem from "./MovieItem";
 import { useNowPlayingMovies, usePopularMovies, useTopRatedMovies, useUpcomingMovies } from "../../hooks/useMovies";
-import { useAuth } from "../../context/AuthContext";
-import { useUserLikes } from "../../hooks/useLikes";
 
-interface MovieListProps {
-  url: string;
+interface Props {
+  category: string;
+  options?: {
+    wrap?: string;
+  }
 }
 
-const MovieListSection = styled.section`
-  margin-bottom: 30px;
+const ListWrapper = styled.div`
+  position: relative;
 `;
 
-const TitleContainer = styled.div`
+const List = styled.ul<{ $options: Props["options"] }>`
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
+  gap: 30px 20px;
+  flex-wrap: ${({ $options }) => $options?.wrap || "nowrap"};
+  overflow: hidden;
 `;
 
-const Title = styled.h3`
+const MoreLink = styled(Link)`
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: ${({ theme }) => theme.colors.primaryText};
   font-size: 2rem;
-  font-weight: bold;
-  letter-spacing: 1px;
-`;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transition: all 0.5s ease;
 
-const SeeMoreLink = styled(Link)`
-  display: flex;
-  align-items: center;
+  ${ListWrapper}:hover & {
+    opacity: 1;
+  }
 
-  & > svg {
-    margin-left: 5px;
-    padding-bottom: 2px;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.9);
   }
 `;
 
-const MovieListUl = styled.ul`
-  display: flex;
-  gap: 20px;
-`;
+const S = { ListWrapper, List, MoreLink };
 
-const MovieList = ({ url }: MovieListProps) => {
-  const { user } = useAuth();
-  const userEmail = user?.email || null;
-
-  let queryResult, title;
-  switch (url) {
+const MovieList = ({ category, options }: Props) => {
+  let queryResult;
+  switch (category) {
     case "nowplaying":
       queryResult = useNowPlayingMovies();
-      title = "Now Playing";
       break;
     case "upcoming":
       queryResult = useUpcomingMovies();
-      title = "Coming Soon";
       break;
     case "popular":
       queryResult = usePopularMovies();
-      title = "Popular Movies";
       break;
     case "toprated":
       queryResult = useTopRatedMovies();
-      title = "Top Rated";
-      break;
-    case "like":
-      queryResult = useUserLikes(userEmail);
-      title = "Favorites"
       break;
     default:
       queryResult = useNowPlayingMovies();
-      title = "Now Playing";
   }
   const { data, isLoading, isError, error } = queryResult;
 
@@ -85,25 +77,19 @@ const MovieList = ({ url }: MovieListProps) => {
     return <div>Error: {error instanceof Error ? error.message : 'Something went wrong'}</div>;
   }
 
-  const movies = url === "like" ? data.slice(0, 4) : data?.results?.slice(0, 4);
+  const movies = data?.results;
 
   return (
     <>
       {movies && movies.length && (
-        <MovieListSection>
-          <Container>
-            <TitleContainer>
-              <Title>{title}</Title>
-              <SeeMoreLink to={`movies/${url}`}>More<FontAwesomeIcon icon={faAngleRight} />
-              </SeeMoreLink>
-            </TitleContainer>
-            <MovieListUl>
-              {movies.map((movie: { id: number, movieId: number, poster_path: string }) => (
-                <MovieItem key={movie.id} id={url === "like" ? movie.movieId : movie.id} poster={movie.poster_path} />
-              ))}
-            </MovieListUl>
-          </Container>
-        </MovieListSection>
+        <S.ListWrapper>
+          <S.List $options={options || {}}>
+            {movies.map((movie: { id: number, movieId: number, title: string, poster_path: string }) => (
+              <MovieItem key={movie.id} id={movie.id} title={movie.title} poster_path={movie.poster_path} />
+            ))}
+          </S.List>
+          <S.MoreLink to={`movies/${category}`}><FontAwesomeIcon icon={faAngleRight} /></S.MoreLink>
+        </S.ListWrapper>
       )}
     </>
   )

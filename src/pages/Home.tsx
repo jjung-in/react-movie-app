@@ -1,13 +1,13 @@
 import Banner from "../components/Movie/Banner";
-import MovieList from "../components/Movie/MovieList";
+import MovieSection from "../components/Movie/MovieSection";
 
 const Home = () => {
   return (
     <main>
       <Banner />
-      <MovieList url="nowplaying" />
-      <MovieList url="upcoming" />
-      <MovieList url="toprated" />
+      <MovieSection url="nowplaying" />
+      <MovieSection url="upcoming" />
+      <MovieSection url="toprated" />
     </main>
   )
 }
