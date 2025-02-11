@@ -2,3 +2,7 @@
   transform: scale(0.9);
   filter: brightness(50%);
 }
+
+.slick-slide:not(.slick-center) a {
+  pointer-events: none;
+}
