@@ -16,7 +16,7 @@ const ListWrapper = styled.div`
   position: relative;
 `;
 
-const List = styled.ul<{ $options: Props["options"] }>`
+const List = styled.div<{ $options: Props["options"] }>`
   display: flex;
   gap: 30px 20px;
   flex-wrap: ${({ $options }) => $options?.wrap || "nowrap"};

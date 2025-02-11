@@ -8,7 +8,7 @@ interface Props {
   poster_path: string
 }
 
-const Item = styled.li`
+const Item = styled.div`
   flex: 0 0 240px;
   width: 240px;
   height: 360px;
