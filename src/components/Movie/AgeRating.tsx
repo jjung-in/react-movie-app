@@ -2,14 +2,18 @@ import styled from "styled-components";
 
 interface AgeRatingProps {
   rating: string;
+  options?: {
+    fontSize?: string;
+  };
 }
 
-const RatingBadge = styled.span<{ $rating: string }>`
+const RatingBadge = styled.span<{ $rating: string, $options: AgeRatingProps["options"] }>`
   display: inline-block;
   padding: 2.5px 5px;
   color: #fff;
-  font-size: 1rem;
+  font-size: ${({ $options }) => $options?.fontSize || "1.5rem"};
   font-weight: bold;
+  letter-spacing: 1px;
   border-radius: 4px;
   cursor: default;
   background-color: ${({ $rating }) => {
@@ -28,7 +32,7 @@ const RatingBadge = styled.span<{ $rating: string }>`
   }};
 `;
 
-const AgeRating = ({ rating }: AgeRatingProps) => {
+const AgeRating = ({ rating, options }: AgeRatingProps) => {
 
   const getDisplayRating = (rating: string): string => {
     const ratingMap: { [key: string]: string } = {
@@ -36,7 +40,7 @@ const AgeRating = ({ rating }: AgeRatingProps) => {
       "PG": "12+",
       "PG-13": "15+",
       "R": "19+",
-      "NC- 17": "19+",
+      "NC-17": "19+",
     }
 
     return ratingMap[rating.toUpperCase()] || "N/A";
@@ -44,7 +48,7 @@ const AgeRating = ({ rating }: AgeRatingProps) => {
 
 
   return (
-    <RatingBadge $rating={rating}>{getDisplayRating(rating)}</RatingBadge>
+    <RatingBadge $rating={rating} $options={options || {}}>{getDisplayRating(rating)}</RatingBadge>
   )
 }
 

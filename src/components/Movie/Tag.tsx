@@ -14,10 +14,11 @@ const S = {
   TagBox: styled.span<{ $options: Props["options"] }>`
     padding: 3px 8px;
     border-radius: 20px;
-    backdrop-filter: blur(5px);
     color: ${({ $options, theme }) => $options?.color || theme.colors.secondaryText};
     font-size: ${({ $options }) => $options?.fontSize || '1.5rem'};
     font-weight: ${({ $options }) => $options?.fontWeight || 'normal'};
+    letter-spacing: 1px;
+    backdrop-filter: blur(5px);
     background-color: ${({ $options }) => $options?.backgroundColor || 'rgba(255,255,255, 0.2)'};
   `,
 }

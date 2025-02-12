@@ -136,10 +136,10 @@ const Header = () => {
               {isAuthenticated ? (
                 <>
                   <li>
-                    <DropdownButtonItem>
+                    <DropdownLinkItem to="/likes">
                       <FontAwesomeIcon icon={faHeart} />
                       <span>Favorites</span>
-                    </DropdownButtonItem>
+                    </DropdownLinkItem>
                   </li>
                   <li>
                     <DropdownButtonItem onClick={handleLogout} disabled={isPending}>

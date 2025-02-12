@@ -7,9 +7,10 @@ import Layout from "./layouts/Layout";
 import Home from "./pages/Home";
 import Detail from "./pages/Detail";
 import Search from "./pages/Search";
+import Movies from "./pages/Movies";
+import Likes from "./pages/Likes";
 import Login from "./pages/Login";
 import Join from "./pages/Join";
-import Movies from "./pages/Movies";
 import ScrollToTop from "./components/ScrollToTop";
 import { AuthProvider } from "./context/AuthContext";
 
@@ -26,6 +27,7 @@ function App() {
               <Route path="detail/:id" element={<Detail />} />
               <Route path="search" element={<Search />} />
               <Route path="movies/:category" element={<Movies />} />
+              <Route path="likes" element={<Likes />} />
               <Route path="login" element={<Login />} />
               <Route path="join" element={<Join />} />
             </Route>

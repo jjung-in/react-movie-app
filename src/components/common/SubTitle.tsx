@@ -19,7 +19,7 @@ const titleMapping: Record<string, string> = {
   upcoming: "Coming Soon",
   popular: "Popular Movies",
   toprated: "Top Rated",
-  like: "Favorites",
+  likes: "My Favorites",
 }
 
 const SubTitle = ({ url }: Props) => {
