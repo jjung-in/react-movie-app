@@ -69,3 +69,13 @@ export const fetchMovieSearch = async (query: string) => {
   const response = await fetch(`${BASE_URL}/search/movie?query=${query}&language=${BASE_LANG}-${BASE_REGION}`, options);
   return await response.json();
 };
+
+export const fetchMovieVideos = async (movieId: number) => {
+  const response = await fetch(`${BASE_URL}/movie/${movieId}/videos?language=${BASE_LANG}-${BASE_REGION}`, options);
+  return await response.json();
+};
+
+export const fetchMovieImages = async (movieId: number) => {
+  const response = await fetch(`${BASE_URL}/movie/${movieId}/images`, options);
+  return await response.json();
+};

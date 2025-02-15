@@ -5,9 +5,9 @@ import { GlobalStyle } from "./styles/GlobalStyle";
 import { darkTheme } from "./styles/theme";
 import Layout from "./layouts/Layout";
 import Home from "./pages/Home";
-import Detail from "./pages/Detail";
 import Search from "./pages/Search";
 import Movies from "./pages/Movies";
+import Details from "./pages/Details";
 import Likes from "./pages/Likes";
 import Login from "./pages/Login";
 import Join from "./pages/Join";
@@ -24,7 +24,7 @@ function App() {
           <Routes>
             <Route element={<Layout />} >
               <Route path="/" element={<Home />} />
-              <Route path="detail/:id" element={<Detail />} />
+              <Route path="detail/:id" element={<Details />} />
               <Route path="search" element={<Search />} />
               <Route path="movies/:category" element={<Movies />} />
               <Route path="likes" element={<Likes />} />

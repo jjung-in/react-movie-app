@@ -8,7 +8,11 @@ import {
   fetchMovieAgeRating,
   fetchMovieSearch,
   fetchTopRatedMovies,
+  fetchMovieVideos,
+  fetchMovieImages,
 } from "../api/tmdb";
+import { MovieDetails, MovieImages, MovieVideos } from "../types/movie.type";
+import { Credits } from "../types/credits.type";
 
 export const useNowPlayingMovies = () => {
   return useQuery({
@@ -83,14 +87,14 @@ export const useTopRatedMoviesInfinite = () => {
 };
 
 export const useMovieDetails = (movieId: number) => {
-  return useQuery({
+  return useQuery<MovieDetails, Error>({
     queryKey: ["details", movieId],
     queryFn: () => fetchMovieDetails(movieId),
   });
 };
 
 export const useMovieCredits = (movieId: number) => {
-  return useQuery({
+  return useQuery<Credits, Error>({
     queryKey: ["credits", movieId],
     queryFn: () => fetchMovieCredits(movieId),
   });
@@ -108,4 +112,20 @@ export const useMovieSearch = (query: string) => {
     queryKey: ["search", query],
     queryFn: () => fetchMovieSearch(query),
   });
+};
+
+export const useMovieVideos = (movieId: number) => {
+  const query = useQuery<MovieVideos, Error>({
+    queryKey: ["videos", movieId],
+    queryFn: () => fetchMovieVideos(movieId),
+  });
+  return query;
+};
+
+export const useMovieImages = (movieId: number) => {
+  const query = useQuery<MovieImages, Error>({
+    queryKey: ["images", movieId],
+    queryFn: () => fetchMovieImages(movieId),
+  });
+  return query;
 };
