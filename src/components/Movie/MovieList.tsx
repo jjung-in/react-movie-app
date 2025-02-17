@@ -88,7 +88,7 @@ const MovieList = ({ category, options }: Props) => {
               <MovieItem key={movie.id} id={movie.id} title={movie.title} poster_path={movie.poster_path} />
             ))}
           </S.List>
-          <S.MoreLink to={`movies/${category}`}><FontAwesomeIcon icon={faAngleRight} /></S.MoreLink>
+          <S.MoreLink to={`/search`} state={{ category }}><FontAwesomeIcon icon={faAngleRight} /></S.MoreLink>
         </S.ListWrapper>
       )}
     </>

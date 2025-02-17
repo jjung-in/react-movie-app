@@ -42,6 +42,14 @@ export const fetchTopRatedMovies = async ({ pageParam }: { pageParam: number }) 
   return await response.json();
 };
 
+export const fetchMovieSearch = async ({ query, pageParam = 1 }: { query: string; pageParam?: number }) => {
+  const response = await fetch(
+    `${BASE_URL}/search/movie?query=${query}&language=${BASE_LANG}-${BASE_REGION}&page=${pageParam}`,
+    options
+  );
+  return await response.json();
+};
+
 export const fetchMovieDetails = async (movieId: number) => {
   const response = await fetch(`${BASE_URL}/movie/${movieId}?language=${BASE_LANG}-${BASE_REGION}`, options);
   return await response.json();
@@ -65,17 +73,12 @@ export const fetchMovieAgeRating = async (movieId: number) => {
   return "No Rating";
 };
 
-export const fetchMovieSearch = async (query: string) => {
-  const response = await fetch(`${BASE_URL}/search/movie?query=${query}&language=${BASE_LANG}-${BASE_REGION}`, options);
-  return await response.json();
-};
-
 export const fetchMovieVideos = async (movieId: number) => {
   const response = await fetch(`${BASE_URL}/movie/${movieId}/videos?language=${BASE_LANG}-${BASE_REGION}`, options);
   return await response.json();
 };
 
 export const fetchMovieImages = async (movieId: number) => {
-  const response = await fetch(`${BASE_URL}/movie/${movieId}/images`, options);
+  const response = await fetch(`${BASE_URL}/movie/${movieId}/images?language=${BASE_LANG}-${BASE_REGION}`, options);
   return await response.json();
 };

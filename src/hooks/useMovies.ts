@@ -86,6 +86,17 @@ export const useTopRatedMoviesInfinite = () => {
   });
 };
 
+export const useMovieSearchInfinite = (query: string) => {
+  return useInfiniteQuery({
+    queryKey: ["search", "infinite", query],
+    queryFn: ({ pageParam = 1 }) => fetchMovieSearch({ query, pageParam }), 
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => {
+      return lastPage.page < lastPage.total_pages ? lastPage.page + 1 : undefined;
+    },
+  });
+};
+
 export const useMovieDetails = (movieId: number) => {
   return useQuery<MovieDetails, Error>({
     queryKey: ["details", movieId],
@@ -104,13 +115,6 @@ export const useMovieAgeRating = (movieId: number) => {
   return useQuery({
     queryKey: ["ageRating", movieId],
     queryFn: () => fetchMovieAgeRating(movieId),
-  });
-};
-
-export const useMovieSearch = (query: string) => {
-  return useQuery({
-    queryKey: ["search", query],
-    queryFn: () => fetchMovieSearch(query),
   });
 };
 

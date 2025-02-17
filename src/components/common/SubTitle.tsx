@@ -23,7 +23,7 @@ const titleMapping: Record<string, string> = {
 }
 
 const SubTitle = ({ url }: Props) => {
-  const title = titleMapping[url] || "Now Playing";
+  const title = titleMapping[url] || url;
 
   return (
     <S.Title>{title}</S.Title>
