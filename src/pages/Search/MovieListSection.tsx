@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Container from "../../styles/Container";
 import SubTitle from "../../components/common/SubTitle";
 import MovieItem from "../../components/Movie/MovieItem";
+import Spinner from "../../components/common/Spinner";
 import { useMovieSearchInfinite, useNowPlayingMoviesInfinite, usePopularMoviesInfinite, useTopRatedMoviesInfinite, useUpcomingMoviesInfinite } from "../../hooks/useMovies";
 import { useEffect, useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
@@ -71,12 +72,12 @@ const MovieListSection = ({ category, search }: Props) => {
   return (
     <section>
       <S.Container>
+        <SubTitle url={search ? `Search Results for "${search}"` : category} />
         {isLoading ? (
-          <div>is Loading...</div>
+          <Spinner height="calc(100vh - 223px)" />
         ) : (
-          <>
-            <SubTitle url={search ? `Search Results for "${search}"` : category} />
-            {movies && movies.length ? (
+          movies && movies.length ? (
+            <>
               <S.MovieList>
                 {movies.map((movie, index) => (
                   <div ref={index === movies.length - 1 ? lastMovieRef : null} key={uuidv4()}>
@@ -84,11 +85,11 @@ const MovieListSection = ({ category, search }: Props) => {
                   </div>
                 ))}
               </S.MovieList>
-            ) : (
-              <div>no data</div>
-            )}
-            {isFetching && <div>데이터 새로 요청 중 ...</div>}
-          </>
+              {isFetching && <Spinner height="150px" />}
+            </>
+          ) : (
+            <div>no data</div>
+          )
         )}
       </S.Container>
     </section>
@@ -98,6 +99,10 @@ const MovieListSection = ({ category, search }: Props) => {
 export default MovieListSection;
 
 const S = {
+  LoadingContainer: styled(Container)`
+    height: calc(100vh - 180px);
+  `,
+
   Container: styled(Container)`
     padding-bottom: 40px;
   `,

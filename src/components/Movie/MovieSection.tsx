@@ -2,8 +2,6 @@ import styled from "styled-components";
 import Container from "../../styles/Container";
 import SubTitle from "../common/SubTitle";
 import MovieList from "./MovieList";
-import MovieItem from "./MovieItem";
-import { useNowPlayingMovies, usePopularMovies, useTopRatedMovies, useUpcomingMovies } from "../../hooks/useMovies";
 
 interface Props {
   url: string;

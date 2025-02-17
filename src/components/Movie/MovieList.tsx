@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import MovieItem from "./MovieItem";
+import Spinner from "../common/Spinner";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
@@ -11,6 +12,46 @@ interface Props {
     wrap?: string;
   }
 }
+
+const MovieList = ({ category, options }: Props) => {
+  let queryResult;
+  switch (category) {
+    case "nowplaying":
+      queryResult = useNowPlayingMovies();
+      break;
+    case "upcoming":
+      queryResult = useUpcomingMovies();
+      break;
+    case "popular":
+      queryResult = usePopularMovies();
+      break;
+    case "toprated":
+      queryResult = useTopRatedMovies();
+      break;
+    default:
+      queryResult = useNowPlayingMovies();
+  }
+  const { data, isFetching } = queryResult;
+
+  return (
+    <>
+      {isFetching ? (
+        <Spinner height="360px" />
+      ) : (
+        <S.ListWrapper>
+          <S.List $options={options || {}}>
+            {data?.results.map((movie: { id: number, movieId: number, title: string, poster_path: string }) => (
+              <MovieItem key={movie.id} id={movie.id} title={movie.title} poster_path={movie.poster_path} />
+            ))}
+          </S.List>
+          <S.MoreLink to={`/search`} state={{ category }}><FontAwesomeIcon icon={faAngleRight} /></S.MoreLink>
+        </S.ListWrapper>
+      )}
+    </>
+  )
+}
+
+export default MovieList;
 
 const ListWrapper = styled.div`
   position: relative;
@@ -48,51 +89,3 @@ const MoreLink = styled(Link)`
 `;
 
 const S = { ListWrapper, List, MoreLink };
-
-const MovieList = ({ category, options }: Props) => {
-  let queryResult;
-  switch (category) {
-    case "nowplaying":
-      queryResult = useNowPlayingMovies();
-      break;
-    case "upcoming":
-      queryResult = useUpcomingMovies();
-      break;
-    case "popular":
-      queryResult = usePopularMovies();
-      break;
-    case "toprated":
-      queryResult = useTopRatedMovies();
-      break;
-    default:
-      queryResult = useNowPlayingMovies();
-  }
-  const { data, isLoading, isError, error } = queryResult;
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (isError) {
-    return <div>Error: {error instanceof Error ? error.message : 'Something went wrong'}</div>;
-  }
-
-  const movies = data?.results;
-
-  return (
-    <>
-      {movies && movies.length && (
-        <S.ListWrapper>
-          <S.List $options={options || {}}>
-            {movies.map((movie: { id: number, movieId: number, title: string, poster_path: string }) => (
-              <MovieItem key={movie.id} id={movie.id} title={movie.title} poster_path={movie.poster_path} />
-            ))}
-          </S.List>
-          <S.MoreLink to={`/search`} state={{ category }}><FontAwesomeIcon icon={faAngleRight} /></S.MoreLink>
-        </S.ListWrapper>
-      )}
-    </>
-  )
-}
-
-export default MovieList;

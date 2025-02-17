@@ -21,8 +21,8 @@ const MovieContents = ({ movie, casts, videos, images }: Props) => {
         <S.SubTitle>STORYLINE</S.SubTitle>
         <p>{movie.overview}</p>
       </S.OverviewWrapper>
-      {casts && casts.length && <MovieCasts casts={casts} />}
-      {videos && videos.length && <MovieVideos videos={videos} />}
+      {casts && casts.length > 0 && <MovieCasts casts={casts} />}
+      {videos && videos.length > 0 && <MovieVideos videos={videos} />}
       {images && <MovieImages images={images} />}
       {/* Watch now */}
       {/* Similar Movies */}
