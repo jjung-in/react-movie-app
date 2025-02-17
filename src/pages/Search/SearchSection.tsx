@@ -5,29 +5,39 @@ import { faCalendar, faClapperboard, faCrown, faFire, faMagnifyingGlass } from "
 import { useState } from "react";
 
 interface Props {
+  setCategory: React.Dispatch<React.SetStateAction<string>>;
   setSearch: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const SearchSection = ({ setSearch }: Props) => {
+const SearchSection = ({ setCategory, setSearch }: Props) => {
   const [text, setText] = useState("");
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSearch(text);
+
+    if (text) {
+      setSearch(text);
+    }
+  }
+
+  const handleCategoryClick = (category: string) => {
+    setCategory(category);
+    setSearch("");
+    setText("");
   }
 
   return (
     <section>
       <S.Container>
         <S.SearchForm onSubmit={handleSearch}>
-          <S.SearchInput type="text" autoComplete="off" onChange={(e) => setText(e.target.value)} />
+          <S.SearchInput type="text" autoComplete="off" value={text} onChange={(e) => setText(e.target.value)} />
           <S.SearchButton><FontAwesomeIcon icon={faMagnifyingGlass} /></S.SearchButton>
         </S.SearchForm>
         <S.ButtonGroup>
-          <S.StyledButton type="button"><FontAwesomeIcon icon={faClapperboard} /></S.StyledButton>
-          <S.StyledButton type="button"><FontAwesomeIcon icon={faCalendar} /></S.StyledButton>
-          <S.StyledButton type="button"><FontAwesomeIcon icon={faFire} /></S.StyledButton>
-          <S.StyledButton type="button"><FontAwesomeIcon icon={faCrown} /></S.StyledButton>
+          <S.StyledButton type="button" onClick={() => handleCategoryClick("nowplaying")}><FontAwesomeIcon icon={faClapperboard} /></S.StyledButton>
+          <S.StyledButton type="button" onClick={() => handleCategoryClick("upcoming")}><FontAwesomeIcon icon={faCalendar} /></S.StyledButton>
+          <S.StyledButton type="button" onClick={() => handleCategoryClick("popular")}><FontAwesomeIcon icon={faFire} /></S.StyledButton>
+          <S.StyledButton type="button" onClick={() => handleCategoryClick("toprated")}><FontAwesomeIcon icon={faCrown} /></S.StyledButton>
         </S.ButtonGroup>
       </S.Container>
     </section>

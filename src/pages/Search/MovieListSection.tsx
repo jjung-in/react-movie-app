@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Container from "../../styles/Container";
 import SubTitle from "../../components/common/SubTitle";
 import MovieItem from "../../components/Movie/MovieItem";
-import { useNowPlayingMoviesInfinite, usePopularMoviesInfinite, useTopRatedMoviesInfinite, useUpcomingMoviesInfinite } from "../../hooks/useMovies";
+import { useMovieSearchInfinite, useNowPlayingMoviesInfinite, usePopularMoviesInfinite, useTopRatedMoviesInfinite, useUpcomingMoviesInfinite } from "../../hooks/useMovies";
 import { useEffect, useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
 
@@ -12,8 +12,6 @@ interface Props {
 }
 
 const MovieListSection = ({ category, search }: Props) => {
-  console.log(search);
-
   let queryResult;
   switch (category) {
     case "nowplaying":
@@ -30,7 +28,15 @@ const MovieListSection = ({ category, search }: Props) => {
       break;
   }
 
-  const { data, isLoading, isFetching, fetchNextPage, hasNextPage } = queryResult || {};
+  const { data: movieData, isLoading: isMovieLoading, isFetching: isMovieFetching, fetchNextPage: movieFetchNextPage, hasNextPage: hasMovieNextPage } = queryResult || {};
+  const { data: searchData, isLoading: isSearchLoading, isFetching: isSearchFetching, fetchNextPage: searchfetchNextPage, hasNextPage: hasSearchNextPage } = useMovieSearchInfinite(search);
+
+  const isLoading = isMovieLoading || isSearchLoading;
+  const isFetching = isMovieFetching || isSearchFetching;
+  const fetchNextPage = search ? searchfetchNextPage : movieFetchNextPage;
+  const hasNextPage = search ? hasSearchNextPage : hasMovieNextPage;
+  const data = search ? searchData : movieData;
+  const movies = data?.pages.flatMap((page: any) => page.results);
   const lastMovieRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -62,16 +68,14 @@ const MovieListSection = ({ category, search }: Props) => {
     };
   }, [lastMovieRef.current, hasNextPage]);
 
-  const movies = data?.pages.flatMap((page: any) => page.results);
-
   return (
     <section>
       <S.Container>
-        <SubTitle url={"popular"} />
         {isLoading ? (
           <div>is Loading...</div>
         ) : (
           <>
+            <SubTitle url={search ? `Search Results for "${search}"` : category} />
             {movies && movies.length ? (
               <S.MovieList>
                 {movies.map((movie, index) => (
@@ -83,9 +87,9 @@ const MovieListSection = ({ category, search }: Props) => {
             ) : (
               <div>no data</div>
             )}
+            {isFetching && <div>데이터 새로 요청 중 ...</div>}
           </>
         )}
-        {isFetching && <div>데이터 새로 요청 중 ...</div>}
       </S.Container>
     </section>
   )

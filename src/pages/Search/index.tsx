@@ -5,15 +5,13 @@ import { useLocation } from "react-router-dom";
 
 const Search = () => {
   const location = useLocation();
-  const { category } = location.state || { category: "popular" };
+  const { category: state } = location.state || { category: "popular" };
+  const [category, setCategory] = useState(state);
   const [search, setSearch] = useState("");
-
-  // const { data: movies, isFetching: isMoviesFetching, fetchNextPage: moviesFetchNextPage, hasNextPage: moviesHasNextPage } = queryResult;
-  // const { data: searchMovies, isFetching: isSearchFetching, fetchNextPage: searchFetchNextPage, hasNextPage: searchHasNextPage } = useMovieSearchInfinite(search);
 
   return (
     <main>
-      <SearchSection setSearch={setSearch} />
+      <SearchSection setCategory={setCategory} setSearch={setSearch} />
       <MovieListSection category={category} search={search} />
     </main>
   )
