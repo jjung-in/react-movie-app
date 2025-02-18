@@ -1,10 +1,10 @@
-import Banner from "../components/Movie/Banner";
-import MovieSection from "../components/Movie/MovieSection";
+import BannerSection from "./BannerSection";
+import MovieSection from "./MovieSection";
 
 const Home = () => {
   return (
     <main>
-      <Banner />
+      <BannerSection />
       <MovieSection category="nowplaying" />
       <MovieSection category="upcoming" />
       <MovieSection category="toprated" />

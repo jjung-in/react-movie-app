@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Container from "../../styles/Container";
-import SubTitle from "../common/SubTitle";
+import SubTitle from "../../components/common/SubTitle";
 import MovieList from "./MovieList";
 
 interface Props {

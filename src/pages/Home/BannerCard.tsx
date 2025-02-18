@@ -1,11 +1,10 @@
 import styled from "styled-components";
-import Rating from "./Rating";
-import Tag from "./Tag";
+import Rating from "../../components/Movie/Rating";
+import Tag from "../../components/Movie/Tag";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay } from "@fortawesome/free-solid-svg-icons";
 import { Movie } from "../../types/movie.type";
-import { breakpoints } from "../../styles/breakpoint";
 
 interface Props {
   movie: Movie;

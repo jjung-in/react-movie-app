@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import Container from "../../styles/Container";
 import BannerCard from "./BannerCard";
+import Spinner from "../../components/common/Spinner";
 import Slider from "react-slick";
-import Spinner from "../common/Spinner";
 import { breakpoints } from "../../styles/breakpoint";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -32,7 +32,7 @@ const settings = {
   ],
 };
 
-const Banner = () => {
+const BannerSection = () => {
   const { data, isFetching } = usePopularMovies();
 
   return (
@@ -52,7 +52,7 @@ const Banner = () => {
   );
 };
 
-export default Banner;
+export default BannerSection;
 
 const S = {
   BannerWrapper: styled.section`

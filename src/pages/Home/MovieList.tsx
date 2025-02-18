@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import MovieItem from "./MovieItem";
-import Spinner from "../common/Spinner";
+import MovieItem from "../../components/Movie/MovieItem";
+import Spinner from "../../components/common/Spinner";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
