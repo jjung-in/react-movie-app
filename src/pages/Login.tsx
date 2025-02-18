@@ -5,13 +5,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLogin } from "../hooks/useAuth";
 import { AuthError } from "firebase/auth";
-
-const S = {
-  LoginContainer: styled(Container)`
-    padding-top: 80px;
-    padding-bottom: 100px;
-  `,
-}
+import { breakpoints } from "../styles/breakpoint";
 
 const Login = () => {
   const { mutate, isPending } = useLogin();
@@ -43,15 +37,39 @@ const Login = () => {
         }
       }
     );
-  }
+  };
 
   return (
-    <main>
+    <S.Main>
       <S.LoginContainer>
         <AuthForm isJoin={false} submitAction={handleLogin} isPending={isPending} error={error} setError={setError} />
       </S.LoginContainer>
-    </main>
-  )
-}
+    </S.Main>
+  );
+};
 
 export default Login;
+
+const S = {
+  Main: styled.main`
+    min-height: calc(100vh - 171px);
+    
+    @media (max-width: ${breakpoints.tablet}) {
+      min-height: calc(100vh - 141px);
+    }
+
+    @media (max-width: ${breakpoints.mobile}) {
+      min-height: calc(100vh - 121px);
+    }
+  `,
+
+  LoginContainer: styled(Container)`
+    padding-top: 80px;
+    padding-bottom: 100px;
+
+    @media (max-width: ${breakpoints.mobile}) {
+      padding-top: 60px;
+      padding-bottom: 60px;
+    }
+  `,
+};

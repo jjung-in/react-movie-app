@@ -65,6 +65,7 @@ const MoreLink = styled(Link)`
   position: absolute;
   top: 0;
   right: 0;
+  width: 50px;
   height: 100%;
   display: flex;
   justify-content: center;

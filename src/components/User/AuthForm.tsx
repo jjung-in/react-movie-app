@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { useRef, useState } from "react";
+import { breakpoints } from "../../styles/breakpoint";
 
 interface Props {
   isJoin: boolean;
@@ -10,79 +11,7 @@ interface Props {
   isPending: boolean;
   error: string;
   setError: (error: string) => void;
-}
-
-const S = {
-  FormWrapper: styled.div`
-    max-width: 560px;
-    margin: 0 auto;
-    padding: 50px 50px 65px 50px;
-    background-color: #252525;
-    border-radius: 10px;
-  `,
-
-  Title: styled.h2`
-    margin-bottom: 40px;
-    color: ${({ theme }) => theme.colors.primaryText};
-    font-size: 3rem;
-    font-weight: bold;
-    text-align: center;
-    letter-spacing: 1px;
-  `,
-
-  Form: styled.form`
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
-  `,
-
-  Input: styled.input<{ $isError?: string }>`
-    width: 100%;
-    height: 50px;
-    padding: 0 20px;
-    background-color: #2f2f2f;
-    border-radius: 5px;
-    border: ${({ $isError, theme }) => ($isError ? `1px solid ${theme.colors.pointText}` : "none")};
-  `,
-
-  ErrorText: styled.p`
-    display: flex;
-    margin-top: 10px;
-    font-size: 1.4rem;
-    color: ${({ theme }) => theme.colors.primaryText};
-
-    & svg {
-      margin-right: 7px;
-      padding-top: 1.5px;
-    }
-  `,
-
-  SubmitButton: styled.button`
-    width: 100%;
-    height: 50px;
-    margin-top: 10px;
-    color: ${({ theme }) => theme.colors.primaryText};
-    font-weight: bold;
-    letter-spacing: 1px;
-    background-color: ${({ theme }) => theme.colors.pointText};
-    border-radius: 5px;
-    cursor: pointer;
-  `,
-
-  LinkWrapper: styled.div`
-    margin-top: 20px;
-    text-align: center;
-  `,
-
-  Link: styled(Link)`
-    padding-left: 10px;
-    color: ${({ theme }) => theme.colors.primaryText};
-
-    &:hover {
-      text-decoration: underline;
-    }
-  `,
-}
+};
 
 const AuthForm = ({ isJoin, submitAction, isPending, error, setError }: Props) => {
   const authContent = {
@@ -155,7 +84,7 @@ const AuthForm = ({ isJoin, submitAction, isPending, error, setError }: Props) =
     }
 
     submitAction(inputValue.email, inputValue.password);
-  }
+  };
 
   return (
     <S.FormWrapper>
@@ -220,7 +149,96 @@ const AuthForm = ({ isJoin, submitAction, isPending, error, setError }: Props) =
         <S.Link to={link}>{linkText}</S.Link>
       </S.LinkWrapper>
     </S.FormWrapper>
-  )
-}
+  );
+};
 
 export default AuthForm;
+
+const S = {
+  FormWrapper: styled.div`
+    max-width: 560px;
+    margin: 0 auto;
+    padding: 50px 50px 65px 50px;
+    background-color: #252525;
+    border-radius: 10px;
+
+    @media (max-width: ${breakpoints.mobile}) {
+      padding: 30px 40px 50px 40px;
+    }
+  `,
+
+  Title: styled.h2`
+    margin-bottom: 40px;
+    color: ${({ theme }) => theme.colors.primaryText};
+    font-size: 3rem;
+    font-weight: bold;
+    text-align: center;
+    letter-spacing: 1px;
+
+    @media (max-width: ${breakpoints.mobile}) {
+      margin-bottom: 30px;
+      font-size: 2.5rem;
+    }
+  `,
+
+  Form: styled.form`
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+
+    @media (max-width: ${breakpoints.mobile}) {
+      gap: 15px;
+    }
+  `,
+
+  Input: styled.input<{ $isError?: string }>`
+    width: 100%;
+    height: 50px;
+    padding: 0 20px;
+    background-color: #2f2f2f;
+    border-radius: 5px;
+    border: ${({ $isError, theme }) => ($isError ? `1px solid ${theme.colors.pointText}` : "none")};
+  `,
+
+  ErrorText: styled.p`
+    display: flex;
+    margin-top: 10px;
+    font-size: 1.4rem;
+    color: ${({ theme }) => theme.colors.primaryText};
+
+    & svg {
+      margin-right: 7px;
+      padding-top: 1.5px;
+    }
+  `,
+
+  SubmitButton: styled.button`
+    width: 100%;
+    height: 50px;
+    margin-top: 10px;
+    color: ${({ theme }) => theme.colors.primaryText};
+    font-weight: bold;
+    letter-spacing: 1px;
+    background-color: ${({ theme }) => theme.colors.pointText};
+    border-radius: 5px;
+    cursor: pointer;
+
+    @media (max-width: ${breakpoints.mobile}) {
+      margin-top: 0;
+    }
+  `,
+
+  LinkWrapper: styled.div`
+    margin-top: 20px;
+    text-align: center;
+  `,
+
+  Link: styled(Link)`
+    padding-left: 10px;
+    color: ${({ theme }) => theme.colors.primaryText};
+
+    &:hover {
+      text-decoration: underline;
+    }
+  `,
+};
