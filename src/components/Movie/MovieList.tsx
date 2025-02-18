@@ -5,15 +5,13 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import { useNowPlayingMovies, usePopularMovies, useTopRatedMovies, useUpcomingMovies } from "../../hooks/useMovies";
+import { breakpoints } from "../../styles/breakpoint";
 
 interface Props {
   category: string;
-  options?: {
-    wrap?: string;
-  }
-}
+};
 
-const MovieList = ({ category, options }: Props) => {
+const MovieList = ({ category }: Props) => {
   let queryResult;
   switch (category) {
     case "nowplaying":
@@ -39,8 +37,8 @@ const MovieList = ({ category, options }: Props) => {
         <Spinner height="360px" />
       ) : (
         <S.ListWrapper>
-          <S.List $options={options || {}}>
-            {data?.results.map((movie: { id: number, movieId: number, title: string, poster_path: string }) => (
+          <S.List>
+            {data?.results.map((movie) => (
               <MovieItem key={movie.id} id={movie.id} title={movie.title} poster_path={movie.poster_path} />
             ))}
           </S.List>
@@ -48,8 +46,8 @@ const MovieList = ({ category, options }: Props) => {
         </S.ListWrapper>
       )}
     </>
-  )
-}
+  );
+};
 
 export default MovieList;
 
@@ -57,10 +55,9 @@ const ListWrapper = styled.div`
   position: relative;
 `;
 
-const List = styled.div<{ $options: Props["options"] }>`
+const List = styled.div`
   display: flex;
   gap: 30px 20px;
-  flex-wrap: ${({ $options }) => $options?.wrap || "nowrap"};
   overflow: hidden;
 `;
 
@@ -68,7 +65,6 @@ const MoreLink = styled(Link)`
   position: absolute;
   top: 0;
   right: 0;
-  width: 50px;
   height: 100%;
   display: flex;
   justify-content: center;
@@ -85,6 +81,10 @@ const MoreLink = styled(Link)`
 
   &:hover {
     background-color: rgba(0, 0, 0, 0.9);
+  }
+
+  @media (max-width: ${breakpoints.mobile}) {
+    width: 30px;
   }
 `;
 

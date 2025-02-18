@@ -4,16 +4,33 @@ import Tag from "./Tag";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay } from "@fortawesome/free-solid-svg-icons";
+import { Movie } from "../../types/movie.type";
+import { breakpoints } from "../../styles/breakpoint";
 
 interface Props {
-  movie: {
-    id: number;
-    title: string;
-    backdrop_path: string;
-    genre_ids: number[];
-    vote_average: number
-  }
-}
+  movie: Movie;
+};
+
+const BannerCard = ({ movie }: Props) => {
+  return (
+    <S.CardBox>
+      <S.BackImage src={`https://image.tmdb.org/t/p/w1280/${movie.backdrop_path}`} />
+      <S.ContentWrapper>
+        <Tag value="🔥 Now Popular" options={{ color: "#ffffff" }} />
+        <S.ContentFooter>
+          <S.MovieTitle>{movie.title}</S.MovieTitle>
+          <S.GenreList>
+            {movie.genre_ids.map((genre_id: number) => <Tag key={genre_id} value={genre_id} options={{ fontSize: "1.2rem" }} />)}
+          </S.GenreList>
+          <Rating rating={movie.vote_average} />
+        </S.ContentFooter>
+        <S.WatchLink to={`/detail/${movie.id}`}><FontAwesomeIcon icon={faPlay} />Watch</S.WatchLink>
+      </S.ContentWrapper>
+    </S.CardBox>
+  );
+};
+
+export default BannerCard;
 
 const S = {
   CardBox: styled.div`
@@ -75,25 +92,4 @@ const S = {
       margin-right: 10px;
     }
   `,
-}
-
-const BannerCard = ({ movie }: Props) => {
-  return (
-    <S.CardBox>
-      <S.BackImage src={`https://image.tmdb.org/t/p/w1280/${movie.backdrop_path}`} alt="Movie Poster" />
-      <S.ContentWrapper>
-        <Tag value="🔥 Now Popular" options={{ color: "#ffffff" }} />
-        <S.ContentFooter>
-          <S.MovieTitle>{movie.title}</S.MovieTitle>
-          <S.GenreList>
-            {movie.genre_ids.map((genre_id: number) => <Tag key={genre_id} value={genre_id} options={{ fontSize: "1.2rem" }} />)}
-          </S.GenreList>
-          <Rating rating={movie.vote_average} />
-        </S.ContentFooter>
-        <S.WatchLink to={`/detail/${movie.id}`}><FontAwesomeIcon icon={faPlay} />Watch</S.WatchLink>
-      </S.ContentWrapper>
-    </S.CardBox>
-  )
-}
-
-export default BannerCard;
+};

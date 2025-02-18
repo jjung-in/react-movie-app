@@ -11,26 +11,6 @@ interface Props {
   };
 }
 
-const S = {
-  RatingBox: styled.div`
-    display: flex;
-    align-items: center;
-    gap: 5px;
-  `,
-
-  Star: styled.span<{ $options: Props["options"] }>`
-    color: #ffd700;
-    font-size: ${({ $options }) => $options?.fontSize || '1.5rem'};
-  `,
-
-  Score: styled.span<{ $options: Props["options"] }>`
-    margin-right: 7px;
-    color: #ffd700;
-    font-size: ${({ $options }) => $options?.fontSize || '1.5rem'};
-    font-weight: ${({ $options }) => $options?.fontWeight || 'normal'};
-  `,
-}
-
 const Rating = ({ rating, options }: Props) => {
   const totalStars = 5;
   const fullStar = Math.floor(rating / 2);
@@ -59,3 +39,23 @@ const Rating = ({ rating, options }: Props) => {
 };
 
 export default Rating;
+
+const S = {
+  RatingBox: styled.div`
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  `,
+
+  Star: styled.span<{ $options: Props["options"] }>`
+    color: #ffd700;
+    font-size: ${({ $options }) => $options?.fontSize || '1.5rem'};
+  `,
+
+  Score: styled.span<{ $options: Props["options"] }>`
+    margin-right: 7px;
+    color: #ffd700;
+    font-size: ${({ $options }) => $options?.fontSize || '1.5rem'};
+    font-weight: ${({ $options }) => $options?.fontWeight || 'normal'};
+  `,
+};

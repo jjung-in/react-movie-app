@@ -5,11 +5,11 @@ const Home = () => {
   return (
     <main>
       <Banner />
-      <MovieSection url="nowplaying" />
-      <MovieSection url="upcoming" />
-      <MovieSection url="toprated" />
+      <MovieSection category="nowplaying" />
+      <MovieSection category="upcoming" />
+      <MovieSection category="toprated" />
     </main>
-  )
-}
+  );
+};
 
 export default Home;

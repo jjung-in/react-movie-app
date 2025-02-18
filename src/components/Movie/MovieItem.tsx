@@ -1,12 +1,26 @@
 import styled from "styled-components"
 import PosterImage from "./PosterImage";
 import { Link } from "react-router-dom"
+import { breakpoints } from "../../styles/breakpoint";
 
 interface Props {
   id: number;
   title: string;
   poster_path: string
-}
+};
+
+const MovieItem = ({ id, title, poster_path }: Props) => {
+  return (
+    <S.Item>
+      <S.ItemLink to={`/detail/${id}`}>
+        <PosterImage poster_path={poster_path} />
+        <S.HoverInfo><S.Title>{title}</S.Title></S.HoverInfo>
+      </S.ItemLink>
+    </S.Item>
+  );
+};
+
+export default MovieItem;
 
 const Item = styled.div`
   flex: 0 0 240px;
@@ -14,6 +28,18 @@ const Item = styled.div`
   height: 360px;
   border-radius: 10px;
   overflow: hidden;
+
+  @media (max-width: ${breakpoints.tablet}) {
+    flex: 0 0 190px;
+    width: 190px;
+    height: 285px;
+  }
+
+  @media (max-width: ${breakpoints.mobile}) {
+    flex: 0 0 140px;
+    width: 140px;
+    height: 210px;
+  }
 `;
 
 const ItemLink = styled(Link)`
@@ -51,19 +77,14 @@ const Title = styled.span`
   font-size: 2rem;
   font-weight: bold;
   letter-spacing: 1px;
+
+  @media (max-width: ${breakpoints.tablet}) {
+    font-size: 1.8rem;
+  }
+
+  @media (max-width: ${breakpoints.mobile}) {
+    font-size: 1.6rem;
+  }
 `;
 
 const S = { Item, ItemLink, HoverInfo, Title };
-
-const MovieItem = ({ id, title, poster_path }: Props) => {
-  return (
-    <S.Item>
-      <S.ItemLink to={`/detail/${id}`}>
-        <PosterImage poster_path={poster_path} />
-        <S.HoverInfo><S.Title>{title}</S.Title></S.HoverInfo>
-      </S.ItemLink>
-    </S.Item>
-  )
-}
-
-export default MovieItem;

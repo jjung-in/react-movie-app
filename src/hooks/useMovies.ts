@@ -11,32 +11,32 @@ import {
   fetchMovieVideos,
   fetchMovieImages,
 } from "../api/tmdb";
-import { MovieDetails, MovieImages, MovieVideos } from "../types/movie.type";
+import { MovieDetails, MovieImages, MovieList, MovieVideos } from "../types/movie.type";
 import { Credits } from "../types/credits.type";
 
 export const useNowPlayingMovies = () => {
-  return useQuery({
+  return useQuery<MovieList, Error>({
     queryKey: ["nowPlayingMovies"],
     queryFn: () => fetchNowPlayingMovies({ pageParam: 1 }),
   });
 };
 
 export const useUpcomingMovies = () => {
-  return useQuery({
+  return useQuery<MovieList, Error>({
     queryKey: ["upcomingMovies"],
     queryFn: () => fetchUpcomingMovies({ pageParam: 1 }),
   });
 };
 
 export const usePopularMovies = () => {
-  return useQuery({
+  return useQuery<MovieList, Error>({
     queryKey: ["popularMovies"],
     queryFn: () => fetchPopularMovies({ pageParam: 1 }),
   });
 };
 
 export const useTopRatedMovies = () => {
-  return useQuery({
+  return useQuery<MovieList, Error>({
     queryKey: ["topRatedMovies"],
     queryFn: () => fetchTopRatedMovies({ pageParam: 1 }),
   });

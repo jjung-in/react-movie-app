@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 interface Props {
   height?: string;
-}
+};
 
 const Spinner = ({ height }: Props) => {
   return (
