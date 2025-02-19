@@ -3,13 +3,13 @@ import Container from "../../styles/Container";
 import MovieSummary from "./MovieSummary";
 import MovieContents from "./MovieContents";
 import { useParams } from "react-router-dom";
-import { useMovieAgeRating, useMovieCredits, useMovieDetails, useMovieImages, useMovieVideos } from "../../hooks/useMovies";
+import { useMovieRating, useMovieCredits, useMovieDetails, useMovieImages, useMovieVideos } from "../../hooks/useMovies";
 import Spinner from "../../components/common/Spinner";
 
 const Details = () => {
   const movieId = Number(useParams().id);
   const { data: details, isFetching: isDetailsFetching } = useMovieDetails(movieId);
-  const { data: rating, isFetching: isRatingFetching } = useMovieAgeRating(movieId);
+  const { data: rating, isFetching: isRatingFetching } = useMovieRating(movieId);
   const { data: credits, isFetching: isCreditsFetching } = useMovieCredits(movieId);
   const { data: videos, isFetching: isVideosFetching } = useMovieVideos(movieId);
   const { data: images, isFetching: isImagesFetching } = useMovieImages(movieId);

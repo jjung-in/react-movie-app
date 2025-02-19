@@ -7,7 +7,7 @@ import Layout from "./layouts/Layout";
 import Home from "./pages/Home";
 import Search from "./pages/Search";
 import Details from "./pages/Details";
-import Likes from "./pages/Likes";
+import FavoritesPage from "./pages/Favorites";
 import Login from "./pages/Login";
 import Join from "./pages/Join";
 import ScrollToTop from "./components/ScrollToTop";
@@ -25,7 +25,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="detail/:id" element={<Details />} />
               <Route path="search" element={<Search />} />
-              <Route path="likes" element={<Likes />} />
+              <Route path="favorites" element={<FavoritesPage />} />
               <Route path="login" element={<Login />} />
               <Route path="join" element={<Join />} />
             </Route>

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Rating from "../../components/Movie/Rating";
+import Star from "../../components/Movie/Star";
 import Tag from "../../components/Movie/Tag";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -21,7 +21,7 @@ const BannerCard = ({ movie }: Props) => {
           <S.GenreList>
             {movie.genre_ids.map((genre_id: number) => <Tag key={genre_id} value={genre_id} options={{ fontSize: "1.2rem" }} />)}
           </S.GenreList>
-          <Rating rating={movie.vote_average} />
+          <Star rating={movie.vote_average} />
         </S.ContentFooter>
         <S.WatchLink to={`/detail/${movie.id}`}><FontAwesomeIcon icon={faPlay} />Watch</S.WatchLink>
       </S.ContentWrapper>

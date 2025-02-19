@@ -5,7 +5,7 @@ import {
   fetchPopularMovies,
   fetchMovieDetails,
   fetchMovieCredits,
-  fetchMovieAgeRating,
+  fetchMovieRating,
   fetchMovieSearch,
   fetchTopRatedMovies,
   fetchMovieVideos,
@@ -89,7 +89,7 @@ export const useTopRatedMoviesInfinite = () => {
 export const useMovieSearchInfinite = (query: string) => {
   return useInfiniteQuery({
     queryKey: ["search", "infinite", query],
-    queryFn: ({ pageParam = 1 }) => fetchMovieSearch({ query, pageParam }), 
+    queryFn: ({ pageParam = 1 }) => fetchMovieSearch({ query, pageParam }),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => {
       return lastPage.page < lastPage.total_pages ? lastPage.page + 1 : undefined;
@@ -97,10 +97,13 @@ export const useMovieSearchInfinite = (query: string) => {
   });
 };
 
-export const useMovieDetails = (movieId: number) => {
+export const useMovieDetails = (movieId?: number) => {
   return useQuery<MovieDetails, Error>({
     queryKey: ["details", movieId],
-    queryFn: () => fetchMovieDetails(movieId),
+    queryFn: () => {
+      if (!movieId) throw new Error("Movie ID is required");
+      return fetchMovieDetails(movieId);
+    },
   });
 };
 
@@ -108,13 +111,6 @@ export const useMovieCredits = (movieId: number) => {
   return useQuery<Credits, Error>({
     queryKey: ["credits", movieId],
     queryFn: () => fetchMovieCredits(movieId),
-  });
-};
-
-export const useMovieAgeRating = (movieId: number) => {
-  return useQuery({
-    queryKey: ["ageRating", movieId],
-    queryFn: () => fetchMovieAgeRating(movieId),
   });
 };
 
@@ -132,4 +128,14 @@ export const useMovieImages = (movieId: number) => {
     queryFn: () => fetchMovieImages(movieId),
   });
   return query;
+};
+
+export const useMovieRating = (movieId?: number) => {
+  return useQuery<string, Error>({
+    queryKey: ["rating", movieId],
+    queryFn: () => {
+      if (!movieId) throw new Error("Movie ID is required");
+      return fetchMovieRating(movieId);
+    },
+  });
 };

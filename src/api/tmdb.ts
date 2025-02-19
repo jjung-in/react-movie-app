@@ -60,19 +60,6 @@ export const fetchMovieCredits = async (movieId: number) => {
   return await response.json();
 };
 
-export const fetchMovieAgeRating = async (movieId: number) => {
-  const response = await fetch(`${BASE_URL}/movie/${movieId}/release_dates`, options);
-  const data = await response.json();
-  const usRelease = data.results.find((release: any) => release.iso_3166_1 === "US");
-
-  if (usRelease && usRelease.release_dates) {
-    const ageRating = usRelease.release_dates.find((release: any) => release.certification)?.certification;
-    return ageRating || "No Rating";
-  }
-
-  return "No Rating";
-};
-
 export const fetchMovieVideos = async (movieId: number) => {
   const response = await fetch(`${BASE_URL}/movie/${movieId}/videos?language=${BASE_LANG}-${BASE_REGION}`, options);
   return await response.json();
@@ -81,4 +68,17 @@ export const fetchMovieVideos = async (movieId: number) => {
 export const fetchMovieImages = async (movieId: number) => {
   const response = await fetch(`${BASE_URL}/movie/${movieId}/images?language=${BASE_LANG}-${BASE_REGION}`, options);
   return await response.json();
+};
+
+export const fetchMovieRating = async (movieId: number) => {
+  const response = await fetch(`${BASE_URL}/movie/${movieId}/release_dates`, options);
+  const data = await response.json();
+  const usRelease = data.results.find((release: any) => release.iso_3166_1 === "US");
+
+  if (usRelease && usRelease.release_dates) {
+    const rating = usRelease.release_dates.find((release: any) => release.certification)?.certification;
+    return rating || "No Rating";
+  }
+
+  return "No Rating";
 };

@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { addDoc, collection, deleteDoc, getDocs, query, where } from "firebase/firestore";
 import { db } from "../api/firebase";
+import { LikedMoviesList } from "../types/likes.type";
 
 interface Movie {
   id: number;
@@ -62,18 +63,24 @@ export const useMovieLikes = (userEmail: string | null, movie: Movie) => {
   return { data, isLoading, isError, error, addLike, removeLike };
 };
 
-export const useUserLikes = (userEmail: string | null) => {
-  return useQuery({
+export const useLikedMovies = (userEmail: string | null) => {
+  return useQuery<LikedMoviesList, Error>({
     queryKey: ["likes", userEmail],
     queryFn: async () => {
       if (!userEmail) throw new Error("사용자가 로그인되어 있지 않습니다.");
       const likesRef = collection(db, "likes");
       const q = query(likesRef, where("userEmail", "==", userEmail));
       const querySnapshot = await getDocs(q);
-      return querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
+      return querySnapshot.docs.map((doc) => {
+        const data = doc.data();
+        return {
+          id: doc.id,
+          movieId: data.movieId,
+          poster_path: data.poster_path,
+          title: data.title,
+          userEmail: data.userEmail,
+        };
+      });
     },
     enabled: !!userEmail,
   });

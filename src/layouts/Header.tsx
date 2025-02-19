@@ -44,7 +44,7 @@ const Header = () => {
               {isAuthenticated ? (
                 <>
                   <li>
-                    <S.DropdownLinkItem to="/likes">
+                    <S.DropdownLinkItem to="/favorites">
                       <FontAwesomeIcon icon={faHeart} />
                       <span>Favorites</span>
                     </S.DropdownLinkItem>

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import PosterImage from "../../components/Movie/PosterImage";
-import Rating from "../../components/Movie/Rating";
+import Star from "../../components/Movie/Star";
 import AgeRating from "../../components/Movie/AgeRating";
 import Tag from "../../components/Movie/Tag";
 import { MovieDetails } from "../../types/movie.type";
@@ -37,7 +37,7 @@ const MovieSummary = ({ movie, rating }: Props) => {
       </S.RuntimeWrapper>
       <S.StarWrapper>
         <S.SubTitle>STAR</S.SubTitle>
-        <Rating rating={movie.vote_average} options={{ fontSize: "2rem" }} />
+        <Star rating={movie.vote_average} options={{ fontSize: "2rem" }} />
       </S.StarWrapper>
     </>
   )

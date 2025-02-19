@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar, faStarHalfStroke } from "@fortawesome/free-solid-svg-icons";
 import { faStar as faStarRegular } from "@fortawesome/free-regular-svg-icons";
@@ -11,7 +11,7 @@ interface Props {
   };
 }
 
-const Rating = ({ rating, options }: Props) => {
+const Star = ({ rating, options }: Props) => {
   const totalStars = 5;
   const fullStar = Math.floor(rating / 2);
   const hasHalfStar = rating % 2 >= 1;
@@ -38,7 +38,7 @@ const Rating = ({ rating, options }: Props) => {
   );
 };
 
-export default Rating;
+export default Star;
 
 const S = {
   RatingBox: styled.div`
@@ -49,13 +49,13 @@ const S = {
 
   Star: styled.span<{ $options: Props["options"] }>`
     color: #ffd700;
-    font-size: ${({ $options }) => $options?.fontSize || '1.5rem'};
+    font-size: ${({ $options }) => $options?.fontSize || "1rem"};
   `,
 
   Score: styled.span<{ $options: Props["options"] }>`
     margin-right: 7px;
     color: #ffd700;
-    font-size: ${({ $options }) => $options?.fontSize || '1.5rem'};
-    font-weight: ${({ $options }) => $options?.fontWeight || 'normal'};
+    font-size: ${({ $options }) => $options?.fontSize || "1rem"};
+    font-weight: ${({ $options }) => $options?.fontWeight || "normal"};
   `,
 };

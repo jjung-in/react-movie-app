@@ -9,9 +9,9 @@ interface AgeRatingProps {
 
 const RatingBadge = styled.span<{ $rating: string, $options: AgeRatingProps["options"] }>`
   display: inline-block;
-  padding: 2.5px 5px;
+  padding: 0.25rem 0.5rem;
   color: #fff;
-  font-size: ${({ $options }) => $options?.fontSize || "1.5rem"};
+  font-size: ${({ $options }) => $options?.fontSize || "1rem"};
   font-weight: bold;
   letter-spacing: 1px;
   border-radius: 4px;

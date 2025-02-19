@@ -14,7 +14,7 @@ const S = {
 
 const PosterImage = ({ poster_path }: Props) => {
   return (
-    <S.Image src={`https://image.tmdb.org/t/p/w342/${poster_path}`} />
+    <S.Image src={poster_path ? `https://image.tmdb.org/t/p/w342/${poster_path}` : "/images/noimage.png"} />
   )
 }
 
