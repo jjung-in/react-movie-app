@@ -13,7 +13,7 @@ const StyledLink = styled(Link)`
   align-items: center;
   height: 100%;
   padding: 0 10px;
-  font-size: 2rem;
+  font-size: 1.5rem;
   cursor: pointer;
 
   &:hover {

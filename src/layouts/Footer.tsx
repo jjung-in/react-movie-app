@@ -30,10 +30,11 @@ const S = {
     height: 100px;
 
     span {
-      font-size: 1.2rem;
+      font-size: 0.8rem;
     }
+
     a {
-      font-size: 2.5rem;
+      font-size: 1.5rem;
 
       &:hover {
         color: ${({ theme }) => theme.colors.primaryText};

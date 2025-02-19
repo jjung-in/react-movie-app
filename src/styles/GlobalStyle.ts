@@ -1,14 +1,26 @@
 import { createGlobalStyle } from "styled-components";
+import { breakpoints } from "./breakpoint";
 
 export const GlobalStyle = createGlobalStyle`
   html {
-    font-size: 10px;
+    font-size: 16px;
+  }
+
+  @media (max-width: ${breakpoints.tablet}) {
+    html {
+      font-size: 15px;
+    }
+  }
+
+  @media (max-width: ${breakpoints.mobile}) {
+    html {
+      font-size: 14px;
+    }
   }
 
   body {
     background-color: ${({ theme }) => theme.colors.background};
     color: ${({ theme }) => theme.colors.secondaryText};
     font-family: 'NanumSquare';
-    font-size: 1.5rem;
   }
 `;

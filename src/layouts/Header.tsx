@@ -129,26 +129,22 @@ const S = {
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 100%;
     color: ${({ theme }) => theme.colors.primaryText};
     font-family: 'RixYeoljeongdo_Regular';
-    font-size: 2rem;
+    font-size: 1.5rem;
     letter-spacing: 1px;
     text-decoration: none;
-    height: 100%;
-
-    @media (max-width: ${breakpoints.tablet}) {
-      font-size: 1.8rem;
-    }
-
-    @media (max-width: ${breakpoints.mobile}) {
-      font-size: 1.6rem;
-    }
   `,
 
   NavList: styled.ul`
     display: flex;
-    gap: 1rem;
+    gap: 10px;
     height: 100%;
+
+    @media (max-width: ${breakpoints.mobile}) {
+      gap: 5px;
+    }
   `,
 
   DropdownLinkItem: styled(Link)`
