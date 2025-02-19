@@ -2,6 +2,7 @@ import styled from "styled-components";
 import PosterImage from "../../components/Movie/PosterImage";
 import { LikedMoviesList } from "../../types/likes.type";
 import { breakpoints } from "../../styles/breakpoint";
+import { useEffect, useRef } from "react";
 
 interface Props {
   movies: LikedMoviesList;
@@ -10,6 +11,33 @@ interface Props {
 };
 
 const MovieListSection = ({ movies, selectMovie, setSelectMovie }: Props) => {
+  const movieListRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const movieList = movieListRef.current;
+
+    const handleWheel = (e: WheelEvent) => {
+      if (movieList) {
+        const atLeftEnd = (movieList.scrollLeft === 0);
+        const atRightEnd = (movieList.scrollLeft + movieList.offsetWidth >= movieList.scrollWidth);
+        const scrollingUp = (e.deltaY < 0);
+        const scrollingDown = (e.deltaY > 0);
+
+        if ((atLeftEnd && scrollingUp) || (atRightEnd && scrollingDown)) {
+          return;
+        }
+
+        e.preventDefault();
+        movieList.scrollLeft += e.deltaY;
+      }
+    };
+
+    if (movieList) {
+      movieList.addEventListener('wheel', handleWheel, { passive: false });
+      return () => { movieList.removeEventListener('wheel', handleWheel); };
+    }
+  }, []);
+
   const handleItemClick = (movieId: number) => {
     setSelectMovie(movieId);
   };
@@ -21,7 +49,7 @@ const MovieListSection = ({ movies, selectMovie, setSelectMovie }: Props) => {
   return (
     <S.Section>
       <S.SubTitle>My Favorites</S.SubTitle>
-      <S.MovieList>
+      <S.MovieList ref={movieListRef}>
         {movies?.map((movie) => (
           <S.MovieItem $id={movie.movieId} $selectMovie={selectMovie} key={movie.movieId} onClick={() => handleItemClick(movie.movieId)}>
             <PosterImage poster_path={movie.poster_path} />
