@@ -1,6 +1,6 @@
 import styled from "styled-components"
 import Container from "../styles/Container"
-import AuthForm from "../components/User/AuthForm";
+import AuthForm from "../components/Auth/AuthForm";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLogin } from "../hooks/useAuth";
@@ -40,36 +40,32 @@ const Login = () => {
   };
 
   return (
-    <S.Main>
-      <S.LoginContainer>
+    <S.PageLayout>
+      <S.Container>
         <AuthForm isJoin={false} submitAction={handleLogin} isPending={isPending} error={error} setError={setError} />
-      </S.LoginContainer>
-    </S.Main>
+      </S.Container>
+    </S.PageLayout>
   );
 };
 
 export default Login;
 
 const S = {
-  Main: styled.main`
+  PageLayout: styled.main``,
+
+  Container: styled(Container)`
+    display: flex;
+    justify-content: center;
+    align-items: center;
     min-height: calc(100vh - 171px);
-    
+    padding: 3% 5%;
+
     @media (max-width: ${breakpoints.tablet}) {
       min-height: calc(100vh - 141px);
     }
 
     @media (max-width: ${breakpoints.mobile}) {
       min-height: calc(100vh - 121px);
-    }
-  `,
-
-  LoginContainer: styled(Container)`
-    padding-top: 80px;
-    padding-bottom: 100px;
-
-    @media (max-width: ${breakpoints.mobile}) {
-      padding-top: 60px;
-      padding-bottom: 60px;
     }
   `,
 };

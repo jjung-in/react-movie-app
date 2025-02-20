@@ -87,7 +87,7 @@ const AuthForm = ({ isJoin, submitAction, isPending, error, setError }: Props) =
   };
 
   return (
-    <S.FormWrapper>
+    <S.AuthFormBox>
       <S.Title>{title}</S.Title>
       <S.Form onSubmit={handleSubmit}>
         <div>
@@ -148,52 +148,43 @@ const AuthForm = ({ isJoin, submitAction, isPending, error, setError }: Props) =
         <span>{linkDescription}</span>
         <S.Link to={link}>{linkText}</S.Link>
       </S.LinkWrapper>
-    </S.FormWrapper>
+    </S.AuthFormBox>
   );
 };
 
 export default AuthForm;
 
 const S = {
-  FormWrapper: styled.div`
+  AuthFormBox: styled.div`
+    width: 100%;
     max-width: 560px;
-    margin: 0 auto;
     padding: 50px 50px 65px 50px;
     background-color: #252525;
     border-radius: 10px;
 
     @media (max-width: ${breakpoints.mobile}) {
-      padding: 30px 40px 50px 40px;
+      /* padding: 30px 40px 50px 40px; */
     }
   `,
 
   Title: styled.h2`
-    margin-bottom: 40px;
+    margin-bottom: 2rem;
     color: ${({ theme }) => theme.colors.primaryText};
-    font-size: 3rem;
+    font-size: 2rem;
     font-weight: bold;
     text-align: center;
     letter-spacing: 1px;
-
-    @media (max-width: ${breakpoints.mobile}) {
-      margin-bottom: 30px;
-      font-size: 2.5rem;
-    }
   `,
 
   Form: styled.form`
     display: flex;
     flex-direction: column;
-    gap: 25px;
-
-    @media (max-width: ${breakpoints.mobile}) {
-      gap: 15px;
-    }
+    gap: 1.5rem;
   `,
 
   Input: styled.input<{ $isError?: string }>`
     width: 100%;
-    height: 50px;
+    height: 3rem;
     padding: 0 20px;
     background-color: #2f2f2f;
     border-radius: 5px;
@@ -203,7 +194,6 @@ const S = {
   ErrorText: styled.p`
     display: flex;
     margin-top: 10px;
-    font-size: 1.4rem;
     color: ${({ theme }) => theme.colors.primaryText};
 
     & svg {
@@ -214,7 +204,7 @@ const S = {
 
   SubmitButton: styled.button`
     width: 100%;
-    height: 50px;
+    height: 3rem;
     margin-top: 10px;
     color: ${({ theme }) => theme.colors.primaryText};
     font-weight: bold;
@@ -222,14 +212,10 @@ const S = {
     background-color: ${({ theme }) => theme.colors.pointText};
     border-radius: 5px;
     cursor: pointer;
-
-    @media (max-width: ${breakpoints.mobile}) {
-      margin-top: 0;
-    }
   `,
 
   LinkWrapper: styled.div`
-    margin-top: 20px;
+    margin-top: 1.5rem;
     text-align: center;
   `,
 
