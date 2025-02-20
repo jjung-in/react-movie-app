@@ -6,11 +6,12 @@ import Spinner from "../../components/common/Spinner";
 import { useMovieSearchInfinite, useNowPlayingMoviesInfinite, usePopularMoviesInfinite, useTopRatedMoviesInfinite, useUpcomingMoviesInfinite } from "../../hooks/useMovies";
 import { useEffect, useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { breakpoints } from "../../styles/breakpoint";
 
 interface Props {
   category: string;
   search: string;
-}
+};
 
 const MovieListSection = ({ category, search }: Props) => {
   let queryResult;
@@ -70,11 +71,13 @@ const MovieListSection = ({ category, search }: Props) => {
   }, [lastMovieRef.current, hasNextPage]);
 
   return (
-    <section>
+    <S.Section>
       <S.Container>
-        <SubTitle url={search ? `Search Results for "${search}"` : category} />
+        <SubTitle category={search ? `Search Results for "${search}"` : category} />
         {isLoading ? (
-          <Spinner height="calc(100vh - 223px)" />
+          <S.LoadingBox>
+            <Spinner />
+          </S.LoadingBox>
         ) : (
           movies && movies.length ? (
             <>
@@ -88,22 +91,34 @@ const MovieListSection = ({ category, search }: Props) => {
               {isFetching && <Spinner height="150px" />}
             </>
           ) : (
-            <div>no data</div>
+            <S.LoadingBox>No Data</S.LoadingBox>
           )
         )}
       </S.Container>
-    </section>
-  )
-}
+    </S.Section>
+  );
+};
 
 export default MovieListSection;
 
 const S = {
-  LoadingContainer: styled(Container)`
-    height: calc(100vh - 180px);
+  Section: styled.section`
+    display: flex;
+    min-height: calc(100vh - 180px);
+
+    @media (max-width: ${breakpoints.tablet}) {
+      min-height: calc(100vh - 150px); 
+    }
+
+    @media (max-width: ${breakpoints.mobile}) {
+      min-height: calc(100vh - 200px); 
+    }
   `,
 
   Container: styled(Container)`
+    display: flex;
+    flex-direction: column;
+    width: 100%;
     padding-bottom: 40px;
   `,
 
@@ -113,5 +128,21 @@ const S = {
     justify-items: center;
     align-items: center;
     gap: 30px 20px;
+
+    @media (max-width: ${breakpoints.tablet}) {
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px 20px;
+    }
+
+    @media (max-width: ${breakpoints.mobile}) {
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    }
+  `,
+
+  LoadingBox: styled.div`
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   `,
 };

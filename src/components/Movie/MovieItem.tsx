@@ -30,21 +30,23 @@ const Item = styled.div`
   overflow: hidden;
 
   @media (max-width: ${breakpoints.tablet}) {
-    flex: 0 0 190px;
-    width: 190px;
-    height: 285px;
+    flex: 0 0 200px;
+    width: 200px;
+    height: 300px;
   }
 
   @media (max-width: ${breakpoints.mobile}) {
-    flex: 0 0 140px;
-    width: 140px;
-    height: 210px;
+    flex: 0 0 160px;
+    width: 160px;
+    height: 240px;
   }
 `;
 
 const ItemLink = styled(Link)`
   position: relative;
   display: block;
+  width: 100%;
+  height: 100%;
   transition: all 0.5s ease;
 
   &:hover {
@@ -58,7 +60,7 @@ const HoverInfo = styled.p`
   left: 0;
   width: 100%;
   height: 100%;
-  padding: 30px;
+  padding: 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -74,17 +76,9 @@ const HoverInfo = styled.p`
 
 const Title = styled.span`
   color: ${({ theme }) => theme.colors.primaryText};
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: bold;
   letter-spacing: 1px;
-
-  @media (max-width: ${breakpoints.tablet}) {
-    font-size: 1.8rem;
-  }
-
-  @media (max-width: ${breakpoints.mobile}) {
-    font-size: 1.6rem;
-  }
 `;
 
 const S = { Item, ItemLink, HoverInfo, Title };
