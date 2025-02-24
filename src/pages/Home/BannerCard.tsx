@@ -1,29 +1,32 @@
-import styled from "styled-components";
-import Star from "../../components/Movie/Star";
-import Tag from "../../components/Movie/Tag";
-import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlay } from "@fortawesome/free-solid-svg-icons";
-import { Movie } from "../../types/movie.type";
+import styled from 'styled-components';
+import Star from '../../components/Movie/Star';
+import Tag from '../../components/Movie/Tag';
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlay } from '@fortawesome/free-solid-svg-icons';
+import { Movie } from '../../types/movie.type';
 
 interface Props {
   movie: Movie;
-};
+}
 
 const BannerCard = ({ movie }: Props) => {
   return (
     <S.CardBox>
       <S.BackImage src={`https://image.tmdb.org/t/p/w1280/${movie.backdrop_path}`} />
       <S.ContentWrapper>
-        <Tag value="🔥 Now Popular" options={{ color: "#ffffff" }} />
-        <S.ContentFooter>
-          <S.MovieTitle>{movie.title}</S.MovieTitle>
-          <S.GenreList>
-            {movie.genre_ids.map((genre_id: number) => <Tag key={genre_id} value={genre_id} options={{ fontSize: "1.2rem" }} />)}
-          </S.GenreList>
-          <Star rating={movie.vote_average} />
-        </S.ContentFooter>
-        <S.WatchLink to={`/detail/${movie.id}`}><FontAwesomeIcon icon={faPlay} />Watch</S.WatchLink>
+        <Tag value='🔥 Now Popular' options={{ color: '#ffffff', fontSize: '0.75rem' }} />
+        <S.MovieTitle>{movie.title}</S.MovieTitle>
+        <S.GenreList>
+          {movie.genre_ids.map((genre_id: number) => (
+            <Tag key={genre_id} value={genre_id} options={{ fontSize: '0.75rem' }} />
+          ))}
+        </S.GenreList>
+        <Star rating={movie.vote_average} />
+        <S.WatchLink to={`/detail/${movie.id}`}>
+          <FontAwesomeIcon icon={faPlay} />
+          Watch
+        </S.WatchLink>
       </S.ContentWrapper>
     </S.CardBox>
   );
@@ -48,7 +51,7 @@ const S = {
     top: 0;
     width: 100%;
     height: 100%;
-    padding: 30px;
+    padding: 1.75rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -57,17 +60,18 @@ const S = {
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;
+    gap: 0.25rem;
   `,
 
-  ContentFooter: styled.div`
+  ContentInner: styled.div`
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 1rem;
   `,
 
   MovieTitle: styled.span`
     color: ${({ theme }) => theme.colors.primaryText};
-    font-size: 3rem;
+    font-size: 1.75rem;
     font-weight: bold;
     letter-spacing: 1px;
   `,
@@ -79,9 +83,9 @@ const S = {
 
   WatchLink: styled(Link)`
     position: absolute;
-    right: 30px;
-    bottom: 30px;
-    padding: 10px 20px;
+    right: 1.75rem;
+    bottom: 1.75rem;
+    padding: 0.5rem 1rem;
     border-radius: 20px;
     color: ${({ theme }) => theme.colors.primaryText};
     font-weight: bold;
