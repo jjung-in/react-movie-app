@@ -19,6 +19,7 @@ const Header = () => {
   const handleLogout = () => {
     mutate(undefined, {
       onSuccess: () => {
+        window.location.reload();
         navigate("/");
       },
       onError: (error) => {
