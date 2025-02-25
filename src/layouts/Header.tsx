@@ -1,15 +1,15 @@
-import styled from "styled-components";
-import Container from "../styles/Container";
-import IconLink from "../components/common/IconLink";
-import IconButton from "../components/common/IconButton";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
-import { useLogout } from "../hooks/useAuth";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import { faHeart, faSun, faUser } from "@fortawesome/free-regular-svg-icons";
-import { breakpoints } from "../styles/breakpoint";
+import styled from 'styled-components';
+import Container from '../styles/Container';
+import IconLink from '../components/common/IconLink';
+import IconButton from '../components/common/IconButton';
+import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { useLogout } from '../hooks/useAuth';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faUser } from '@fortawesome/free-regular-svg-icons';
+import { breakpoints } from '../styles/breakpoint';
 
 const Header = () => {
   const { isAuthenticated } = useAuth();
@@ -20,24 +20,21 @@ const Header = () => {
     mutate(undefined, {
       onSuccess: () => {
         window.location.reload();
-        navigate("/");
+        navigate('/');
       },
       onError: (error) => {
         console.log(error.message);
-      }
+      },
     });
   };
 
   return (
     <S.HeaderWrapper>
       <S.HeaderContainer>
-        <S.LogoLink to="/">FilmSearch</S.LogoLink>
+        <S.LogoLink to='/'>FilmSearch</S.LogoLink>
         <S.NavList>
           <li>
-            <IconLink to="/search" icon={faMagnifyingGlass} />
-          </li>
-          <li>
-            <IconButton icon={faSun} />
+            <IconLink to='/search' icon={faMagnifyingGlass} />
           </li>
           <S.NavListItemWithDropdown>
             <IconButton icon={faUser} />
@@ -45,7 +42,7 @@ const Header = () => {
               {isAuthenticated ? (
                 <>
                   <li>
-                    <S.DropdownLinkItem to="/favorites">
+                    <S.DropdownLinkItem to='/favorites'>
                       <FontAwesomeIcon icon={faHeart} />
                       <span>Favorites</span>
                     </S.DropdownLinkItem>
@@ -59,7 +56,7 @@ const Header = () => {
                 </>
               ) : (
                 <li>
-                  <S.DropdownLinkItem to="/login">
+                  <S.DropdownLinkItem to='/login'>
                     <FontAwesomeIcon icon={faUser} />
                     <span>Login</span>
                   </S.DropdownLinkItem>
@@ -79,7 +76,7 @@ const Dropdown = styled.ul`
   position: absolute;
   right: 0;
   top: 60px;
-  background: #000000; 
+  background: #000000;
   z-index: 1000;
   visibility: hidden;
   opacity: 0;
@@ -122,11 +119,12 @@ const S = {
   LogoLink: styled(Link)`
     @font-face {
       font-family: 'RixYeoljeongdo_Regular';
-      src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2102-01@1.0/RixYeoljeongdo_Regular.woff') format('woff');
+      src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2102-01@1.0/RixYeoljeongdo_Regular.woff')
+        format('woff');
       font-weight: normal;
       font-style: normal;
     }
-    
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -177,5 +175,5 @@ const S = {
     }
   `,
   Dropdown,
-  NavListItemWithDropdown
+  NavListItemWithDropdown,
 };
