@@ -66,7 +66,7 @@ export const fetchMovieVideos = async (movieId: number) => {
 };
 
 export const fetchMovieImages = async (movieId: number) => {
-  const response = await fetch(`${BASE_URL}/movie/${movieId}/images?language=${BASE_LANG}-${BASE_REGION}`, options);
+  const response = await fetch(`${BASE_URL}/movie/${movieId}/images?language=${BASE_LANG}`, options);
   return await response.json();
 };
 

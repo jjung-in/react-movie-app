@@ -1,10 +1,17 @@
-import styled from "styled-components";
-import Container from "../../styles/Container";
-import MovieSummary from "./MovieSummary";
-import MovieContents from "./MovieContents";
-import { useParams } from "react-router-dom";
-import { useMovieRating, useMovieCredits, useMovieDetails, useMovieImages, useMovieVideos } from "../../hooks/useMovies";
-import Spinner from "../../components/common/Spinner";
+import styled from 'styled-components';
+import Container from '../../styles/Container';
+import MovieSummary from './MovieSummary';
+import MovieContents from './MovieContents';
+import Spinner from '../../components/common/Spinner';
+import { breakpoints } from '../../styles/breakpoint';
+import { useParams } from 'react-router-dom';
+import {
+  useMovieRating,
+  useMovieCredits,
+  useMovieDetails,
+  useMovieImages,
+  useMovieVideos,
+} from '../../hooks/useMovies';
 
 const Details = () => {
   const movieId = Number(useParams().id);
@@ -17,12 +24,13 @@ const Details = () => {
   const isFetching = isDetailsFetching || isRatingFetching || isCreditsFetching || isVideosFetching || isImagesFetching;
 
   return (
-    <main>
+    <S.PageLayout>
       <S.ContentContainer>
         {isFetching ? (
           <Spinner />
         ) : (
-          details && (
+          details &&
+          rating && (
             <>
               <S.SideSection>
                 <MovieSummary movie={details} rating={rating} />
@@ -34,33 +42,49 @@ const Details = () => {
           )
         )}
       </S.ContentContainer>
-    </main>
-  )
-}
+    </S.PageLayout>
+  );
+};
 
 export default Details;
 
 const S = {
+  PageLayout: styled.main``,
+
   ContentContainer: styled(Container)`
     display: flex;
-    gap: 80px;
+    gap: 3rem;
     min-height: calc(100vh - 70px);
-    padding: 3% 5% 2% 5%;
+    padding: 2rem 5%;
+
+    @media (max-width: ${breakpoints.tablet}) {
+      min-height: calc(100vh - 60px);
+      flex-direction: column;
+      gap: 1.75rem;
+    }
   `,
 
   SideSection: styled.section`
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    max-width: 300px;
-    overflow: hidden;
+    gap: 1.25rem;
+    width: 300px;
+
+    @media (max-width: ${breakpoints.laptop}) {
+      width: 240px;
+    }
+
+    @media (max-width: ${breakpoints.tablet}) {
+      width: 100%;
+      gap: 1.75rem;
+    }
   `,
 
   MainSection: styled.section`
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 1.75rem;
     overflow: hidden;
   `,
-}
+};

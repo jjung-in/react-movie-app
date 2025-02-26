@@ -1,59 +1,66 @@
-import styled from "styled-components";
-import { MovieImages as Images } from "../../types/movie.type";
+import styled from 'styled-components';
+import { MovieImages as Images } from '../../types/movie.type';
+import SubTitle from '../../components/common/SubTitle';
+import Carousel from './Carousel';
+import { useState } from 'react';
 
 interface Props {
   images: Images;
 }
 
 const MovieImages = ({ images }: Props) => {
+  const [isHover, setIsHover] = useState(false);
+  const [curIndex, setCurIndex] = useState(0);
   const backdropsImages = images?.backdrops;
+  const length = backdropsImages?.length;
 
   return (
     <>
-      {backdropsImages && (
-        <S.PhotosWrapper>
-          <S.SubTitle>PHOTOS</S.SubTitle>
-          <S.ImageList>
-            {backdropsImages.map((images) => (
-              <S.ImageItem key={images.file_path}>
-                <img src={`https://image.tmdb.org/t/p/w780/${images.file_path}`} alt="" />
-              </S.ImageItem>
-            ))}
-          </S.ImageList>
-        </S.PhotosWrapper>
+      {length > 0 && (
+        <S.PhotosBox>
+          <SubTitle category='PHOTOS' />
+          <Carousel
+            isHover={isHover}
+            length={length}
+            curIndex={curIndex}
+            setCurIndex={setCurIndex}
+            onMouseEnter={() => setIsHover(true)}
+            onMouseLeave={() => setIsHover(false)}
+          >
+            <S.ImageList $curIndex={curIndex}>
+              {backdropsImages.map((images) => (
+                <S.ImageItem key={images.file_path}>
+                  <img src={`https://image.tmdb.org/t/p/w780/${images.file_path}`} />
+                </S.ImageItem>
+              ))}
+            </S.ImageList>
+          </Carousel>
+        </S.PhotosBox>
       )}
     </>
-  )
-}
+  );
+};
 
 export default MovieImages;
 
 const S = {
-  PhotosWrapper: styled.div`
-  
-  `,
+  PhotosBox: styled.div``,
 
-  SubTitle: styled.h6`
-    margin-bottom: 10px;
-    font-size: 2rem;
-    letter-spacing: 1px;
-    color: ${({ theme }) => theme.colors.primaryText};
-  `,
-
-  ImageList: styled.ul`
-    /* background-color: gray; */
+  ImageList: styled.ul<{ $curIndex: number }>`
     display: flex;
+    gap: 15px;
+    transform: ${({ $curIndex }) => `translateX(-${$curIndex * (350 + 15)}px)`};
+    transition: 0.3s ease-in-out;
   `,
 
   ImageItem: styled.li`
-    /* background-color: pink; */
     flex-shrink: 0;
+    width: 350px;
 
     & img {
-      /* width: 145px; */
-      /* height: 225px; */
+      width: 100%;
+      height: 197px;
       object-fit: cover;
-      /* border-radius: 10px; */
     }
   `,
-}
+};
