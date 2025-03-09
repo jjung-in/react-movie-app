@@ -2,23 +2,23 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { addDoc, collection, deleteDoc, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../api/firebase';
 import { LikedMovie } from '../types/likes.type';
+import { MovieDetails } from '../types/movie.type';
 
-interface Movie {
-  id: number;
-  title: string;
-  poster_path: string;
-}
+const getLikesForUserAndMovie = async (userEmail: string, movieId: number) => {
+  const likesRef = collection(db, 'likes');
+  const q = query(likesRef, where('userEmail', '==', userEmail), where('movieId', '==', movieId));
+  const querySnapshot = await getDocs(q);
+  return querySnapshot;
+};
 
-export const useMovieLikes = (userEmail: string | null, movie: Movie) => {
+export const useMovieLikes = (userEmail: string | null, movie: MovieDetails) => {
   const queryClient = useQueryClient();
 
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ['likes', userEmail, movie?.id],
     queryFn: async () => {
       if (!userEmail) return false;
-      const likesRef = collection(db, 'likes');
-      const q = query(likesRef, where('userEmail', '==', userEmail), where('movieId', '==', movie.id));
-      const querySnapshot = await getDocs(q);
+      const querySnapshot = await getLikesForUserAndMovie(userEmail, movie.id);
       return !querySnapshot.empty;
     },
     enabled: !!userEmail && !!movie,
@@ -40,15 +40,15 @@ export const useMovieLikes = (userEmail: string | null, movie: Movie) => {
         queryKey: ['likes', userEmail, movie.id],
       });
     },
-    onError: () => {},
+    onError: (error) => {
+      console.error('Error adding like:', error);
+    },
   });
 
   const removeLike = useMutation({
     mutationFn: async () => {
       if (!userEmail) throw new Error('로그인이 필요합니다.');
-      const likesRef = collection(db, 'likes');
-      const q = query(likesRef, where('userEmail', '==', userEmail), where('movieId', '==', movie.id));
-      const querySnapshot = await getDocs(q);
+      const querySnapshot = await getLikesForUserAndMovie(userEmail, movie.id);
       const batch = querySnapshot.docs.map((doc) => deleteDoc(doc.ref));
       await Promise.all(batch);
     },
@@ -57,7 +57,9 @@ export const useMovieLikes = (userEmail: string | null, movie: Movie) => {
         queryKey: ['likes', userEmail, movie.id],
       });
     },
-    onError: () => {},
+    onError: (error) => {
+      console.error('Error removing like:', error);
+    },
   });
 
   return { data, isLoading, isError, error, addLike, removeLike };

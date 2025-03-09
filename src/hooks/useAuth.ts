@@ -1,6 +1,6 @@
-import { useMutation } from "@tanstack/react-query";
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "firebase/auth";
-import { auth } from "../api/firebase";
+import { useMutation } from '@tanstack/react-query';
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from 'firebase/auth';
+import { auth } from '../api/firebase';
 
 interface AuthProps {
   email: string;
@@ -8,29 +8,17 @@ interface AuthProps {
 }
 
 const join = async ({ email, password }: AuthProps) => {
-  try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    return userCredential.user;
-  } catch (error) {
-    throw error;
-  }
+  const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+  return userCredential.user;
 };
 
 const login = async ({ email, password }: AuthProps) => {
-  try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    return userCredential.user;
-  } catch (error) {
-    throw error;
-  }
+  const userCredential = await signInWithEmailAndPassword(auth, email, password);
+  return userCredential.user;
 };
 
 const logout = async () => {
-  try {
-    await signOut(auth);
-  } catch (error) {
-    throw error;
-  }
+  await signOut(auth);
 };
 
 export const useJoin = () => {
