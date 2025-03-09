@@ -169,7 +169,7 @@ const S = {
 
   Title: styled.h2`
     margin-bottom: 2rem;
-    color: ${({ theme }) => theme.colors.primaryText};
+    color: ${({ theme }) => theme.colors.primary};
     font-size: 2rem;
     font-weight: bold;
     text-align: center;
@@ -188,13 +188,13 @@ const S = {
     padding: 0 20px;
     background-color: #2f2f2f;
     border-radius: 5px;
-    border: ${({ $isError, theme }) => ($isError ? `1px solid ${theme.colors.pointText}` : "none")};
+    border: ${({ $isError, theme }) => ($isError ? `1px solid ${theme.colors.point}` : "none")};
   `,
 
   ErrorText: styled.p`
     display: flex;
     margin-top: 10px;
-    color: ${({ theme }) => theme.colors.primaryText};
+    color: ${({ theme }) => theme.colors.primary};
 
     & svg {
       margin-right: 7px;
@@ -206,10 +206,10 @@ const S = {
     width: 100%;
     height: 3rem;
     margin-top: 10px;
-    color: ${({ theme }) => theme.colors.primaryText};
+    color: ${({ theme }) => theme.colors.primary};
     font-weight: bold;
     letter-spacing: 1px;
-    background-color: ${({ theme }) => theme.colors.pointText};
+    background-color: ${({ theme }) => theme.colors.point};
     border-radius: 5px;
     cursor: pointer;
   `,
@@ -221,7 +221,7 @@ const S = {
 
   Link: styled(Link)`
     padding-left: 10px;
-    color: ${({ theme }) => theme.colors.primaryText};
+    color: ${({ theme }) => theme.colors.primary};
 
     &:hover {
       text-decoration: underline;

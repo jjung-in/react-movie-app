@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Container from "../../styles/Container";
+import Container from "../../components/common/Container";
 import SubTitle from "../../components/common/SubTitle";
 import MovieList from "./MovieList";
 

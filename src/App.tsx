@@ -1,17 +1,16 @@
-import './App.css';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import { GlobalStyle } from './styles/GlobalStyle';
 import { darkTheme } from './styles/theme';
+import { AuthProvider } from './context/AuthContext';
 import Layout from './layouts/Layout';
 import Home from './pages/Home';
-import Search from './pages/Search';
 import Details from './pages/Details';
+import Search from './pages/Search';
 import FavoritesPage from './pages/Favorites';
 import Login from './pages/Login';
 import Join from './pages/Join';
-import ScrollToTop from './components/ScrollToTop';
-import { AuthProvider } from './context/AuthContext';
+import ScrollToTop from './components/common/ScrollToTop';
 
 function App() {
   return (

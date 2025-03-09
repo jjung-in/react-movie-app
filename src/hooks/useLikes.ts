@@ -1,7 +1,7 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { addDoc, collection, deleteDoc, getDocs, query, where } from "firebase/firestore";
-import { db } from "../api/firebase";
-import { LikedMoviesList } from "../types/likes.type";
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { addDoc, collection, deleteDoc, getDocs, query, where } from 'firebase/firestore';
+import { db } from '../api/firebase';
+import { LikedMovie } from '../types/likes.type';
 
 interface Movie {
   id: number;
@@ -13,11 +13,11 @@ export const useMovieLikes = (userEmail: string | null, movie: Movie) => {
   const queryClient = useQueryClient();
 
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["likes", userEmail, movie?.id],
+    queryKey: ['likes', userEmail, movie?.id],
     queryFn: async () => {
       if (!userEmail) return false;
-      const likesRef = collection(db, "likes");
-      const q = query(likesRef, where("userEmail", "==", userEmail), where("movieId", "==", movie.id));
+      const likesRef = collection(db, 'likes');
+      const q = query(likesRef, where('userEmail', '==', userEmail), where('movieId', '==', movie.id));
       const querySnapshot = await getDocs(q);
       return !querySnapshot.empty;
     },
@@ -26,8 +26,8 @@ export const useMovieLikes = (userEmail: string | null, movie: Movie) => {
 
   const addLike = useMutation({
     mutationFn: async () => {
-      if (!userEmail) throw new Error("로그인이 필요합니다.");
-      const likesRef = collection(db, "likes");
+      if (!userEmail) throw new Error('로그인이 필요합니다.');
+      const likesRef = collection(db, 'likes');
       await addDoc(likesRef, {
         userEmail,
         movieId: movie.id,
@@ -37,7 +37,7 @@ export const useMovieLikes = (userEmail: string | null, movie: Movie) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["likes", userEmail, movie.id],
+        queryKey: ['likes', userEmail, movie.id],
       });
     },
     onError: () => {},
@@ -45,16 +45,16 @@ export const useMovieLikes = (userEmail: string | null, movie: Movie) => {
 
   const removeLike = useMutation({
     mutationFn: async () => {
-      if (!userEmail) throw new Error("로그인이 필요합니다.");
-      const likesRef = collection(db, "likes");
-      const q = query(likesRef, where("userEmail", "==", userEmail), where("movieId", "==", movie.id));
+      if (!userEmail) throw new Error('로그인이 필요합니다.');
+      const likesRef = collection(db, 'likes');
+      const q = query(likesRef, where('userEmail', '==', userEmail), where('movieId', '==', movie.id));
       const querySnapshot = await getDocs(q);
       const batch = querySnapshot.docs.map((doc) => deleteDoc(doc.ref));
       await Promise.all(batch);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["likes", userEmail, movie.id],
+        queryKey: ['likes', userEmail, movie.id],
       });
     },
     onError: () => {},
@@ -64,12 +64,12 @@ export const useMovieLikes = (userEmail: string | null, movie: Movie) => {
 };
 
 export const useLikedMovies = (userEmail: string | null) => {
-  return useQuery<LikedMoviesList, Error>({
-    queryKey: ["likes", userEmail],
+  return useQuery<LikedMovie[], Error>({
+    queryKey: ['likes', userEmail],
     queryFn: async () => {
-      if (!userEmail) throw new Error("사용자가 로그인되어 있지 않습니다.");
-      const likesRef = collection(db, "likes");
-      const q = query(likesRef, where("userEmail", "==", userEmail));
+      if (!userEmail) throw new Error('사용자가 로그인되어 있지 않습니다.');
+      const likesRef = collection(db, 'likes');
+      const q = query(likesRef, where('userEmail', '==', userEmail));
       const querySnapshot = await getDocs(q);
       return querySnapshot.docs.map((doc) => {
         const data = doc.data();

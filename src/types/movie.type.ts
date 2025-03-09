@@ -1,5 +1,9 @@
 export interface MovieList {
-  pages: number;
+  dates: {
+    maximum: string;
+    minimum: string;
+  };
+  page: number;
   results: Movie[];
   total_pages: number;
   total_results: number;
@@ -80,7 +84,7 @@ export interface Video {
   key: string;
   site: string;
   size: number;
-  type: "Trailer" | "Teaser" | "Clip" | "Featurette";
+  type: 'Trailer' | 'Teaser' | 'Clip' | 'Featurette';
   official: boolean;
   published_at: string;
   id: string;
@@ -101,4 +105,30 @@ export interface Image {
   file_path: string;
   vote_average: number;
   vote_count: number;
+}
+
+export interface MovieReleaseDates {
+  id: number;
+  result: ReleaseDate[];
+}
+
+export interface ReleaseDate {
+  iso_3166_1: string;
+  release_dates: Release[];
+}
+
+export interface Release {
+  certification: string;
+  descriptors: [];
+  iso_639_1: string;
+  note: string;
+  release_date: string;
+  type: number;
+}
+
+export interface SearchList {
+  page: number;
+  results: Movie[];
+  total_pages: number;
+  total_results: number;
 }

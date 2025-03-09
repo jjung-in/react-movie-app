@@ -54,7 +54,7 @@ const S = {
     width: 40px;
     height: 100%;
     font-size: 1.5rem;
-    color: ${({ theme }) => theme.colors.primaryText};
+    color: ${({ theme }) => theme.colors.primary};
     background-color: rgba(0, 0, 0, 0.5);
     cursor: pointer;
     transition: all 0.5s ease;
@@ -77,7 +77,7 @@ const S = {
     width: 40px;
     height: 100%;
     font-size: 1.5rem;
-    color: ${({ theme }) => theme.colors.primaryText};
+    color: ${({ theme }) => theme.colors.primary};
     background-color: rgba(0, 0, 0, 0.5);
     cursor: pointer;
     transition: all 0.5s ease;

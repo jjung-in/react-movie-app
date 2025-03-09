@@ -1,11 +1,11 @@
 import styled from "styled-components";
 import PosterImage from "../../components/Movie/PosterImage";
-import { LikedMoviesList } from "../../types/likes.type";
+import { LikedMovie } from "../../types/likes.type";
 import { breakpoints } from "../../styles/breakpoint";
 import { useEffect, useRef } from "react";
 
 interface Props {
-  movies: LikedMoviesList;
+  movies: LikedMovie[];
   selectMovie: number | undefined;
   setSelectMovie: React.Dispatch<React.SetStateAction<number | undefined>>;
 };
@@ -69,14 +69,14 @@ const S = {
 
   SubTitle: styled.h4`
     margin-bottom: 1rem;
-    color: ${({ theme }) => theme.colors.primaryText};
+    color: ${({ theme }) => theme.colors.primary};
     font-size: 1.5rem;
     font-weight: bold;
     letter-spacing: 1px;
   `,
 
   MovieTitle: styled.h2`
-    color: ${({ theme }) => theme.colors.primaryText};
+    color: ${({ theme }) => theme.colors.primary};
     font-size: 4rem;
     letter-spacing: 1px;
   `,

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Container from '../styles/Container';
+import Container from '../components/common/Container';
 import IconLink from '../components/common/IconLink';
 import IconButton from '../components/common/IconButton';
 import { Link } from 'react-router-dom';
@@ -129,7 +129,7 @@ const S = {
     justify-content: center;
     align-items: center;
     height: 100%;
-    color: ${({ theme }) => theme.colors.primaryText};
+    color: ${({ theme }) => theme.colors.primary};
     font-family: 'RixYeoljeongdo_Regular';
     font-size: 1.5rem;
     letter-spacing: 1px;
@@ -156,7 +156,7 @@ const S = {
     }
 
     &:hover {
-      color: ${({ theme }) => theme.colors.primaryText};
+      color: ${({ theme }) => theme.colors.primary};
     }
   `,
 
@@ -171,7 +171,7 @@ const S = {
     }
 
     &:hover {
-      color: ${({ theme }) => theme.colors.primaryText};
+      color: ${({ theme }) => theme.colors.primary};
     }
   `,
   Dropdown,

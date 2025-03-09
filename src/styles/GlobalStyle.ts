@@ -1,5 +1,5 @@
-import { createGlobalStyle } from "styled-components";
-import { breakpoints } from "./breakpoint";
+import { createGlobalStyle } from 'styled-components';
+import { breakpoints } from './breakpoint';
 
 export const GlobalStyle = createGlobalStyle`
   html {
@@ -20,7 +20,7 @@ export const GlobalStyle = createGlobalStyle`
 
   body {
     background-color: ${({ theme }) => theme.colors.background};
-    color: ${({ theme }) => theme.colors.secondaryText};
+    color: ${({ theme }) => theme.colors.basic};
     font-family: 'NanumSquare';
   }
 `;

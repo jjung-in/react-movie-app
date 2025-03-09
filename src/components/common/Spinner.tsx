@@ -27,7 +27,7 @@ const S = {
     width: 30px;
     height: 30px;
     border: 4px solid transparent;
-    border-top-color: ${({ theme }) => theme.colors.secondaryText};
+    border-top-color: ${({ theme }) => theme.colors.basic};
     border-radius: 50%;
     animation: spin 1s linear infinite;
 

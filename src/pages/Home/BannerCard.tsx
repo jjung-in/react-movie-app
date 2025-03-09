@@ -70,7 +70,7 @@ const S = {
   `,
 
   MovieTitle: styled.span`
-    color: ${({ theme }) => theme.colors.primaryText};
+    color: ${({ theme }) => theme.colors.primary};
     font-size: 1.75rem;
     font-weight: bold;
     letter-spacing: 1px;
@@ -87,9 +87,9 @@ const S = {
     bottom: 1.75rem;
     padding: 0.5rem 1rem;
     border-radius: 20px;
-    color: ${({ theme }) => theme.colors.primaryText};
+    color: ${({ theme }) => theme.colors.primary};
     font-weight: bold;
-    background-color: ${({ theme }) => theme.colors.pointText};
+    background-color: ${({ theme }) => theme.colors.point};
 
     svg {
       margin-right: 10px;

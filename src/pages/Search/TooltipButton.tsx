@@ -45,7 +45,7 @@ const Button = styled.button<{ $options: Props["options"] }>`
   cursor: pointer;
 
   &:hover {
-    color: ${({ theme }) => theme.colors.primaryText};
+    color: ${({ theme }) => theme.colors.primary};
   }
 `;
 

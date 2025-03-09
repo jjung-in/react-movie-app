@@ -1,5 +1,3 @@
-export type LikedMoviesList = LikedMovie[];
-
 export interface LikedMovie {
   id: string;
   movieId: number;

@@ -35,6 +35,7 @@ const MovieList = ({ category }: Props) => {
   }, []);
 
   const nowPlayingMovies = useNowPlayingMovies();
+  console.log(nowPlayingMovies)
   const upcomingMovies = useUpcomingMovies();
   const popularMovies = usePopularMovies();
   const topRatedMovies = useTopRatedMovies();
@@ -99,7 +100,7 @@ const MoreLink = styled(Link)`
   display: flex;
   justify-content: center;
   align-items: center;
-  color: ${({ theme }) => theme.colors.primaryText};
+  color: ${({ theme }) => theme.colors.primary};
   font-size: 1.5rem;
   background-color: rgba(0, 0, 0, 0.5);
   opacity: 0;

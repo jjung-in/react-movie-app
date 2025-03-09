@@ -44,7 +44,7 @@ const S = {
   TagBox: styled.span<{ $options: Props["options"] }>`
     padding: 0.25rem 0.5rem;
     border-radius: 20px;
-    color: ${({ $options, theme }) => $options?.color || theme.colors.secondaryText};
+    color: ${({ $options, theme }) => $options?.color || theme.colors.basic};
     font-size: ${({ $options }) => $options?.fontSize || "1rem"};
     font-weight: ${({ $options }) => $options?.fontWeight || "normal"};
     letter-spacing: 1px;

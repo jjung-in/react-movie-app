@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Container from '../../styles/Container';
+import Container from '../../components/common/Container';
 import MovieSummary from './MovieSummary';
 import MovieContents from './MovieContents';
 import Spinner from '../../components/common/Spinner';

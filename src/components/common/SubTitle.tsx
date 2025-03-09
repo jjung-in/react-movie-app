@@ -25,7 +25,7 @@ export default SubTitle;
 const S = {
   Title: styled.h3`
     margin-bottom: 1rem;
-    color: ${({ theme }) => theme.colors.primaryText};
+    color: ${({ theme }) => theme.colors.primary};
     font-size: 1.5rem;
     font-weight: bold;
     letter-spacing: 1px;

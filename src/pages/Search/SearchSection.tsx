@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Container from "../../styles/Container";
+import Container from "../../components/common/Container";
 import TooltipButton from "./TooltipButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendar, faClapperboard, faCrown, faFire, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";

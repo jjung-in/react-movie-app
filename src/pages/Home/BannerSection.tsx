@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Container from '../../styles/Container';
+import Container from '../../components/common/Container';
 import BannerCard from './BannerCard';
 import Spinner from '../../components/common/Spinner';
 import Slider from 'react-slick';

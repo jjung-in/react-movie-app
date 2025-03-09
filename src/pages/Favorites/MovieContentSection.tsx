@@ -39,7 +39,7 @@ const S = {
   `,
 
   MovieTitle: styled.h1`
-    color: ${({ theme }) => theme.colors.primaryText};
+    color: ${({ theme }) => theme.colors.primary};
     font-size: 2.5rem;
     letter-spacing: 1px;
   `,
@@ -55,9 +55,9 @@ const S = {
     padding: 10px 20px;
     padding: 0.6rem 1.2rem;
     border-radius: 20px;
-    color: ${({ theme }) => theme.colors.primaryText};
+    color: ${({ theme }) => theme.colors.primary};
     font-weight: bold;
-    background-color: ${({ theme }) => theme.colors.pointText};
+    background-color: ${({ theme }) => theme.colors.point};
 
     svg {
       margin-left: 10px;

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Container from "../styles/Container";
+import Container from "../components/common/Container";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { breakpoints } from "../styles/breakpoint";
@@ -19,7 +19,7 @@ export default Footer;
 
 const S = {
   FooterWrapper: styled.footer`
-    border-top: 1px solid ${({ theme }) => theme.colors.secondaryText};
+    border-top: 1px solid ${({ theme }) => theme.colors.basic};
   `,
 
   FooterContainer: styled(Container)`
@@ -37,7 +37,7 @@ const S = {
       font-size: 1.5rem;
 
       &:hover {
-        color: ${({ theme }) => theme.colors.primaryText};
+        color: ${({ theme }) => theme.colors.primary};
       }
     }
 

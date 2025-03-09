@@ -62,7 +62,7 @@ const S = {
     font-size: 2rem;
     font-weight: bold;
     letter-spacing: 1px;
-    color: ${({ theme }) => theme.colors.primaryText};
+    color: ${({ theme }) => theme.colors.primary};
   `,
 
   SubTitle: styled.h6`
