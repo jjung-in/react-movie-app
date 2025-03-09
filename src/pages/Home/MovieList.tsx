@@ -15,7 +15,6 @@ interface Props {
 const MovieList = ({ category }: Props) => {
   const [spinnerHeight, setSpinnerHeight] = useState('360px');
 
-
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth <= 480) {
@@ -35,7 +34,6 @@ const MovieList = ({ category }: Props) => {
   }, []);
 
   const nowPlayingMovies = useNowPlayingMovies();
-  console.log(nowPlayingMovies)
   const upcomingMovies = useUpcomingMovies();
   const popularMovies = usePopularMovies();
   const topRatedMovies = useTopRatedMovies();
