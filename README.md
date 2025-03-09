@@ -25,6 +25,6 @@
 
 ## 링크
 
-- [Demo](https://github.com/jjung-in/react-movie-app)
+- [Demo](https://film-search-jj.netlify.app)
 
 - [Notion](https://jjung-in.notion.site/React-Movie-Search-174db2bfcb9d80749522da9b449aaa66?pvs=73)
